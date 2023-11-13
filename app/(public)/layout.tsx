@@ -1,7 +1,10 @@
+import dynamic from "next/dynamic";
 import Image from "next/image";
-import PublicHeader from "./components/PublicHeader";
+
+const PublicHeader = dynamic(() => import("./components/PublicHeader"));
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
+
   return (
     <main className="w-full md:h-screen flex flex-col items-center justify-center bg-dark_bg relative">
       <PublicHeader />

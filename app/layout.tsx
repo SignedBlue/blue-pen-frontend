@@ -13,9 +13,8 @@ export const metadata: Metadata = {
   description: "Melhore o processo de criação e assinatura de seus contratos",
 };
 
-export default function RootLayout({ children }: {
-  children: React.ReactNode
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+
   return (
     <html lang="pt">
       <body className={font.className}>

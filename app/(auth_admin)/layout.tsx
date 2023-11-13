@@ -1,23 +1,18 @@
 import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
+import dynamic from "next/dynamic";
 
 // components
-import Sidebar from "./components/Sidebar";
-import PathView from "../components/PathView";
+const Sidebar = dynamic(() => import("./components/Sidebar"));
+const PathView = dynamic(() => import("../components/PathView"));
+const LogoutButton = dynamic(() => import("../components/LogoutButton"));
 
 // providers
 import { AuthContextProvider } from "@/providers/AuthProvider";
 import { CookiesValues } from "@/constants/Cookies";
-import LogoutButton from "../components/LogoutButton";
-// import Image from "next/image";
 
 export default async function AuthLayout({ children }: { children: React.ReactNode }) {
   const cookie = cookies();
   const userName = cookie.get("name")?.value;
-
-  if (cookie.get(CookiesValues.name)?.value !== CookiesValues.admin) {
-    redirect("/login?error=unauthorized");
-  }
 
   return (
     <main className={"flex h-screen bg-[#22262f] p-4 gap-4 relative overflow-hidden"} >

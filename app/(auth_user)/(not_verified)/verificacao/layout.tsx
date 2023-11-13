@@ -1,6 +1,9 @@
-import LogoutButton from "@/app/components/LogoutButton";
-import PathView from "@/app/components/PathView";
+import dynamic from "next/dynamic";
 import Image from "next/image";
+
+// components
+const LogoutButton = dynamic(() => import("@/app/components/LogoutButton"));
+const PathView = dynamic(() => import("@/app/components/PathView"));
 
 export default function NotVerifiedUserLayout({ children }: { children: React.ReactNode }) {
   return (

@@ -1,10 +1,13 @@
+import { cookies } from "next/headers";
+import dynamic from "next/dynamic";
 
 import { CookiesValues } from "@/constants/Cookies";
 import { AuthContextProvider } from "@/providers/AuthProvider";
-import { cookies } from "next/headers";
-import UserSidebar from "./components/UserSidebar";
-import PathView from "@/app/components/PathView";
-import LogoutButton from "@/app/components/LogoutButton";
+
+// components
+const UserSidebar = dynamic(() => import("./components/UserSidebar"));
+const PathView = dynamic(() => import("@/app/components/PathView"));
+const LogoutButton = dynamic(() => import("@/app/components/LogoutButton"));
 
 export default function VerifiedUserLayout({ children }: { children: React.ReactNode }) {
   const cookie = cookies();
