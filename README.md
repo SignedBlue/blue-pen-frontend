@@ -1,36 +1,23 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Sobre o projeto
 
-## Getting Started
+## Instalando as dependências
 
-First, run the development server:
+Para instalar as dependências necessárias, é necessário ter o Node.js instalado localmente. Abra o terminal na pasta raiz do projeto e execute o seguinte comando:
+
+```bash
+npm install
+```
+
+Após a conclusão da instalação das dependências, você poderá executar o projeto localmente utilizando o seguinte comando:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Essa ação permitirá que a aplicação seja executada como uma página web no endereço http://localhost:3000, acessível por meio do navegador de sua escolha.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Estruturação
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+O Nextjs, a partir de sua versão 13, introduziu a "app router" que é a pasta raiz para as páginas, onde cada pasta que possui um arquivo "page.tsx" a qual representa uma rota no navegador. Além de outra palavras reservadas como layout, error, loading, .. que também já possuem suas funcionalidades. Ademais, todo e qualquer outro arquivo dentro da app router são componentes, ou seja, partes de códigos reutilizáveis.
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Pastas nomeadas (dessa forma) não possuem peso na hora do roteamento, são somente para fins de organização.

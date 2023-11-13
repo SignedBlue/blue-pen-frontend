@@ -2,26 +2,52 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
-}
+@layer base {
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
+  html,
+  body {
+    @apply !scroll-smooth;
+  }
+
+  ._title {
+    @apply tracking-wider text-2xl lg:text-4xl font-semibold text-neutral-50 mb-10;
   }
 }
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+@layer components {
+  ._help .subtitle {
+    @apply text-lg font-semibold mb-2;
+  }
+
+  ._help ul li {
+    @apply before:content-["•"] before:mr-2 before:text-2xl;
+  }
+}
+
+@layer utilities {
+  .neon_text {
+    text-shadow: 0 0 5px #fcfcfc, 0 0 20px #fcfcfc;
+  }
+}
+
+.distorted-box {
+  transform: perspective(400px) rotateX(45deg) skewY(15deg);
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+  margin: 20px 0;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 12px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #a9a9a9;
 }
