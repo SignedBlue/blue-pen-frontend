@@ -14,7 +14,7 @@ import { FaRegFile } from "react-icons/fa";
 
 interface SingleContractSectionProps {
   contract: TContract;
-  user: UserData;
+  user: TUserData;
   isAdmin?: boolean;
   payments: TPayment[];
 }
@@ -186,21 +186,25 @@ const SingleContractSection = ({ contract, user, payments }: SingleContractSecti
               </thead>
               <tbody>
                 {payments.map((pay) => (
-                  <tr key={pay.id}>
-                    <td className="border-b px-4 py-[10px] text-sm">{FormatDate(new Date(pay.due_date as Date))}</td>
-                    <td className="border-b px-4 py-[10px] text-sm">{VerifyPaymentStatus(pay.status)}</td>
-                    <td className="border-b px-4 py-[10px] text-sm">
-                      <a target="_blank" rel="noreferrer" href={pay.bank_slip} className="text-lg hover:text-blue_button ease-out duration-200"><FaRegFile /></a>
+                  <tr key={pay.id} className="h-[50px]">
+                    <td className="border-b px-4 text-sm">{FormatDate(new Date(pay.due_date as Date))}</td>
+                    <td className="border-b px-4 text-sm">
+                      <span className={`${pay.status === "PAID" ? "bg-green-400/60" : pay.status === "OVERDUE" ? "bg-red-500/60" : pay.status === "PENDING" ? "bg-yellow-500/50" : "bg-neutral-400/60"} px-6 py-2 rounded-lg font-bold`}>{VerifyPaymentStatus(pay.status)}</span>
                     </td>
-                    <td className="border-b px-4 py-[10px] text-sm text-end">RS {pay.value}</td>
+                    <td className="border-b px-4 text-sm">
+                      <a target="_blank" rel="noreferrer" href={pay.bank_slip} className="text-lg hover:text-blue_button ease-out duration-200 w-[20px]">
+                        <FaRegFile />
+                      </a>
+                    </td>
+                    <td className="border-b px-4 text-sm text-end">RS {pay.value}</td>
                   </tr>
                 ))}
               </tbody>
             </table>
           </div>
         }
-      </section>
-    </div>
+      </section >
+    </div >
   );
 };
 

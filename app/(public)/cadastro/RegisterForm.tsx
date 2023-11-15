@@ -1,7 +1,5 @@
 "use client";
 
-import dynamic from "next/dynamic";
-
 // actions
 import { CreateUser } from "@/app/actions/_user";
 
@@ -9,8 +7,8 @@ import { CreateUser } from "@/app/actions/_user";
 import { UserSchemaRegister } from "@/schemas/User";
 
 // components
-const InputForm = dynamic(() => import("../components/InputForm"));
-const PasswordInput = dynamic(() => import("../components/PasswordInput"));
+import InputForm from "../components/InputForm";
+import PasswordInput from "../components/PasswordInput";
 
 // external libs
 import ReactLoading from "react-loading";

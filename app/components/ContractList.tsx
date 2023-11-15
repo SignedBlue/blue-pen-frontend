@@ -22,6 +22,7 @@ const ContractList = ({ contracts, isAdmin = false, routerBack = false }: Contra
 
   type Rule = (item: TContract) => boolean;
   const rules: Rule[] = [
+    // item => item.sign_date
     // item => item.duration >= 10,
     // item => item.client_id === "6254fab0-3c2a-4583-aea0-9ce9a7575b83",
     // item => new Date(item.created_at) > new Date("2023-05-13"),

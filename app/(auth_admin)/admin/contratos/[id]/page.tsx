@@ -12,7 +12,7 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
 
   const contract: TContract = await data.json();
   const user_data = await fetch(`${backendUrl}/users/${contract.client_id}`);
-  const user: UserData = await user_data.json();
+  const user: TUserData = await user_data.json();
 
   return {
     title: !!contract && `Contrato de ${user.name}`
@@ -28,11 +28,10 @@ export default async function SingleContract({ params: { id: contractId } }: { p
   const payments_data = await fetch(`${backendUrl}/payments?contract_id=${contractId}`, {
     cache: "no-cache"
   });
-
   const payments: IPaymentResponse = await payments_data.json();
 
   const user_data = await fetch(`${backendUrl}/users/${contract.client_id}`);
-  const user: UserData = await user_data.json();
+  const user: TUserData = await user_data.json();
 
 
   if (!contract) {

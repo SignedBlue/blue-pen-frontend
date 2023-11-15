@@ -28,7 +28,7 @@ export async function CreateUser(data: CreateUserInputs) {
       body: JSON.stringify(user)
     });
 
-    const res: UserData = await createdUser.json();
+    const res: TUserData = await createdUser.json();
 
     redirect("/login");
 

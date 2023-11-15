@@ -14,6 +14,7 @@ export default async function ContratosPage() {
     cache: "no-cache"
   });
 
+
   const contracts: ContractResponse = await res.json();
 
   return <ContractList isAdmin contracts={contracts} />;

@@ -1,9 +1,12 @@
 import { backendUrl } from "@/constants/Urls";
 import { VerifyDocumentStatus } from "@/utils/VerifyDocumentStatus";
+import { cookies } from "next/headers";
 
 export default async function Etapa2Page() {
-  const id = "a5b33958-24fe-4af6-9766-a8c2c7d0ed43";
-  const res = await fetch(`${backendUrl}/users/account/${id}`);
+  const user_id = cookies().get("user_id")?.value;
+  const res = await fetch(`${backendUrl}/users/account/${user_id}`, {
+    cache: "no-cache"
+  });
 
   const resData: AsaasResponse = await res.json();
   const data = resData.data[0];

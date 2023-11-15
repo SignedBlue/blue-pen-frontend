@@ -16,18 +16,18 @@ const UserSchemaLogin = z.object({
 const UserSchemaRegister = z.object({
   username: z
     .string()
-    .min(1, "Identificador não pode ser nulo"),
+    .min(1, { message: "Identificador não pode ser nulo" }),
   email: z
     .string()
     .email(),
   password: z
     .string()
-    .min(1, "Senha não pode ser nula")
+    .min(1, { message: "Senha não pode ser nula" })
     .trim()
-    .min(6, "A senha deve ter pelo menos 6 caracteres.")
-    .refine(value => /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()])[A-Za-z\d!@#$%^&*()]+$/.test(value), {
-      message: "A senha deve conter pelo menos uma letra maiúscula, um número e um caractere especial."
-    })
+    .min(6, { message: "A senha deve ter pelo menos 6 caracteres." })
+  // .refine(value => /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()])[A-Za-z\d!@#$%^&*()]+$/.test(value), {
+  //   message: "A senha deve conter pelo menos uma letra maiúscula, um número e um caractere especial."
+  // })
 });
 
 export { UserSchemaLogin, UserSchemaRegister };

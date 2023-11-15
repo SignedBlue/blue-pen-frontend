@@ -29,7 +29,33 @@ type TAuthResponse =
   | TSuccessLogin
   | TErrorLogin
 
-interface TContract {
+type TUserData = {
+  id: string;
+  name: string;
+  email: string;
+  password: string;
+  api_key: string;
+  wallet_id: string;
+  reject_reasons: null | string[];
+  gateway_id: string;
+  document_status: "not_send" | string | null;
+  user_type: "admin" | "user" | string;
+  address: {
+    city: string;
+    number: string;
+    street: string;
+    complement: string;
+    postal_code: string;
+  };
+  birthdate: string;
+  cpf: string;
+  verified: null | boolean;
+  phone: string;
+  created_at: null | string;
+  updated_at: null | string;
+}
+
+type TContract = {
   url: string;
   id: string;
   duration: number;
@@ -51,9 +77,10 @@ interface TContract {
   client_id: string;
   created_at: Date;
   updated_at: Date;
+  client: TUserData;
 }
 
-type TPaymentStatus = "PENDING" | "PAID" | "OVERDUE" | null;
+type TPaymentStatus = "PENDING" | "PAID" | "OVERDUE";
 
 type TPayment = {
   id: string;
@@ -123,34 +150,8 @@ interface AsaasResponse {
   }[];
 }
 
-interface UserData {
-  id: string;
-  name: string;
-  email: string;
-  password: string;
-  api_key: string;
-  wallet_id: string;
-  reject_reasons: null | string[];
-  gateway_id: string;
-  document_status: "not_send" | string | null;
-  user_type: "admin" | "user" | string;
-  address: {
-    city: string;
-    number: string;
-    street: string;
-    complement: string;
-    postal_code: string;
-  };
-  birthdate: string;
-  cpf: string;
-  verified: null | boolean;
-  phone: string;
-  created_at: null | string;
-  updated_at: null | string;
-}
-
 interface DataResponse {
-  data: UserData[];
+  data: TUserData[];
 }
 
 interface ContractUsers {
