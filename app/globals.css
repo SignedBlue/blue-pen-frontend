@@ -10,7 +10,7 @@
   }
 
   ._title {
-    @apply tracking-wider text-2xl lg:text-4xl font-semibold text-neutral-50 mb-10;
+    @apply tracking-wider text-2xl lg:text-4xl font-semibold text-neutral-50;
   }
 }
 

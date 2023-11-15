@@ -82,7 +82,7 @@ export async function Login(data: LoginInputs) {
       }
     }
 
-    return res;
+    return authRes;
   }
 }
 

@@ -1,3 +1,4 @@
+
 // login request user
 type User = {
   id: string;
@@ -52,6 +53,23 @@ interface TContract {
   updated_at: Date;
 }
 
+type TPaymentStatus = "PENDING" | "PAID" | "OVERDUE" | null;
+
+type TPayment = {
+  id: string;
+  payment_date: Date | null
+  value: number
+  fine: number
+  interest: number
+  client_id: string
+  bank_slip: string;
+  due_date: Date | null;
+  status: TPaymentStatus;
+  contract_id: string;
+  created_at: Date | null;
+  updated_at: Date | null;
+}
+
 interface NewContract {
   duration: number;
   start_date: string;
@@ -75,6 +93,11 @@ interface NewContract {
 
 interface ContractResponse {
   data: TContract[];
+  total: number;
+}
+
+interface IPaymentResponse {
+  data: TPayment[];
   total: number;
 }
 

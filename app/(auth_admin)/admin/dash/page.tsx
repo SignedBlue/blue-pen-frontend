@@ -13,8 +13,8 @@ export default async function Dash() {
   const contracts: ContractResponse = await contract_res.json();
 
   return (
-    <div className="h-full flex flex-col items-start">
-      <h1 className="_title">Home</h1>
+    <main className="h-full flex flex-col items-start">
+      <h1 className="_title mb-10">Home</h1>
       <div className="flex flex-col items-start w-full">
         <div className="grid grid-cols-3 gap-5 w-full">
           <GenericArticle className="w-full">
@@ -32,7 +32,7 @@ export default async function Dash() {
           </GenericArticle>
         </div>
       </div>
-    </div>
+    </main>
   );
 
 }

@@ -295,19 +295,19 @@ const NewContractForm = ({ users }: NewContractFormProps) => {
             <thead>
               <tr>
                 <th className="border px-4 py-2 min-w-[180px] text-black font-bold text-start">Serviço</th>
-                <th className="border px-4 py-2 min-w-[130px] text-black font-bold">Valor</th>
+                <th className="border px-4 py-2 min-w-[130px] text-black font-bold text-end">Valor</th>
               </tr>
             </thead>
             <tbody>
               {valoresImplantacao.map((item) => (
                 <tr key={item.valor}>
                   <td className="border px-4 py-2 text-neutral-500">{item.servico}</td>
-                  <td className="border px-4 py-2 text-neutral-500">R$ {item.valor}</td>
+                  <td className="border px-4 py-2 text-neutral-500 text-end">R$ {item.valor}</td>
                 </tr>
               ))}
               <tr>
                 <td className="border px-4 py-2 text-black font-bold">Total</td>
-                <td className="border px-4 py-2 text-black font-bold">R$ {totalSum}</td>
+                <td className="border px-4 py-2 text-black font-bold text-end">R$ {totalSum}</td>
               </tr>
             </tbody>
           </table>

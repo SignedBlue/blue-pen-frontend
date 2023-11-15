@@ -11,7 +11,7 @@ import { IoIosArrowDropleft, IoIosArrowDroprightCircle } from "react-icons/io";
 import { IconType } from "react-icons/lib";
 
 const UserSidebar = () => {
-  const [open, setopen] = useState<boolean>(true);
+  const [open, setopen] = useState<boolean>(false);
   const pathname = usePathname();
 
   const links: {

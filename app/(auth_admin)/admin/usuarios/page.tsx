@@ -12,6 +12,7 @@ export default async function InfosPage() {
     },
     cache: "no-store"
   });
+
   const users: DataResponse = await users_res.json();
 
   return (
