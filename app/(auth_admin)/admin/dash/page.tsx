@@ -1,21 +1,14 @@
-import { backendUrl } from "@/constants/Urls";
 import GenericArticle from "@/app/components/GenericArticle";
 import Link from "next/link";
 import { Metadata } from "next";
+import { getData } from "@/utils/getData";
 
 export const metadata: Metadata = {
   title: "Home"
 };
 
 export default async function Dash() {
-  const contract_res = await fetch(`${backendUrl}/contracts`, {
-    next: {
-      tags: ["contracts"]
-    },
-    cache: "no-cache"
-  });
-
-  const contracts: ContractResponse = await contract_res.json();
+  const contracts: ContractResponse = await getData("/contracts");
 
   return (
     <main className="h-full flex flex-col items-start">
@@ -24,7 +17,7 @@ export default async function Dash() {
         <div className="grid grid-cols-3 gap-5 w-full">
           <GenericArticle className="w-full">
             <div className="flex flex-col items-center gap-y-2">
-              <span className="text-xl font-semibold">Total de contratos</span>
+              <span className="text-xl font-semibold">Total de contratosds</span>
               <span className="text-2xl font-bold">{contracts.total}</span>
             </div>
           </GenericArticle>

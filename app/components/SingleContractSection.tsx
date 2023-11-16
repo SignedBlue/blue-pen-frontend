@@ -163,13 +163,13 @@ const SingleContractSection = ({ contract, payments, contractUsers }: SingleCont
                   {contract.details.valoresImplantacao.map((item) => (
                     <tr key={item.valor}>
                       <td className="border-b-[.5px] px-4 py-2">{item.servico}</td>
-                      <td className="border-b-[.5px] px-4 py-2 text-end">R$ {item.valor}</td>
+                      <td className="border-b-[.5px] px-4 py-2 text-end">R$ {item.valor},00</td>
                     </tr>
                   ))}
                   <tr className="bg-neutral-500/40">
                     <td className="px-4 py-[10px] font-bold">Total</td>
                     <td className="px-4 py-[10px] font-bold text-end">
-                      R$ {contract.details.valoresImplantacao.reduce((acc, item) => acc + item.valor, 0)}
+                      R$ {contract.details.valoresImplantacao.reduce((acc, item) => acc + item.valor, 0)},00
                     </td>
                   </tr>
                 </tbody>

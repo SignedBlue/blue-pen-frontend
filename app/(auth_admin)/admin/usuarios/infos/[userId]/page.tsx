@@ -1,13 +1,12 @@
 import Modal from "@/app/components/Modal";
 import Navbar from "@/app/components/Navbar";
 import { help_single_user } from "@/constants/Helps";
-import { backendUrl } from "@/constants/Urls";
 import { VerifyDocumentStatus } from "@/utils/VerifyDocumentStatus";
 import { formatCPF, formatDate, formatPhoneNumber, formatPostalCode } from "@/utils/formatters";
+import { getData } from "@/utils/getData";
 
 export default async function UserInfosPage({ params: { userId } }: { params: { userId: string } }) {
-  const user_data = await fetch(`${backendUrl}/users/${userId}`);
-  const user: TUserData = await user_data.json();
+  const user: TUserData = await getData(`/users/${userId}`);
 
   return (
     <main>

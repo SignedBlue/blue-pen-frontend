@@ -1,7 +1,7 @@
-import { backendUrl } from "@/constants/Urls";
 import { Metadata } from "next";
 import { cookies } from "next/headers";
 import UsersList from "./UsersList";
+import { getData } from "@/utils/getData";
 
 export const metadata: Metadata = {
   title: "Usuários"
@@ -10,15 +10,11 @@ export const metadata: Metadata = {
 export default async function UsersPage() {
   const tokenValue = cookies().get("jwt")?.value;
 
-  const users_res = await fetch(`${backendUrl}/users`, {
+  const users: DataResponse = await getData("/users", {
     headers: {
       "Authorization": `Bearer ${tokenValue}`,
-      "Content-Type": "application/json",
     },
-    cache: "no-cache"
   });
-
-  const users: DataResponse = await users_res.json();
 
   return <UsersList users={users.data} />;
 }

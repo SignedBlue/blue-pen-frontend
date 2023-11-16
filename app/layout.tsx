@@ -13,6 +13,8 @@ export const metadata: Metadata = {
   description: "Melhore o processo de criação e assinatura de seus contratos",
 };
 
+export const revalidate = 30;
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
 
   return (

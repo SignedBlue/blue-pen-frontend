@@ -1,12 +1,9 @@
 import ContractList from "@/app/components/ContractList";
-import { backendUrl } from "@/constants/Urls";
+import { getData } from "@/utils/getData";
 
 export default async function SingleUserContracts({ params }: { params: { userId: string } }) {
-  const contracts_data = await fetch(`${backendUrl}/contracts?client_id=${params.userId}`, {
-    cache: "no-cache"
-  });
 
-  const contracts: ContractResponse = await contracts_data.json();
+  const contracts: ContractResponse = await getData(`/contracts?client_id=${params.userId}`);
 
   return <ContractList isAdmin routerBack contracts={contracts} />;
 }
