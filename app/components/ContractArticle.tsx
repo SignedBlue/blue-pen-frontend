@@ -1,4 +1,4 @@
-import { FormatDate } from "@/utils/FormateDate";
+import { formatDate } from "@/utils/formatters";
 import Link from "next/link";
 
 interface ContractArticleProps {
@@ -12,9 +12,9 @@ const ContractArticle = ({ contract, display, href }: ContractArticleProps) => {
 
   return (
     <Link href={`${href}/${contract.id}`} className={`${display === "grid" ? "flex-col min-h-[150px]" : " justify-between"} scroll-m-0 flex items-center rounded-md p-3 relative shadow-md w-full bg-gradient-to-b from-neutral-300/40 to-neutral-500/100 border-b-2 border-transparent hover:shadow-lg hover:bg-neutral-400/50 hover:border-b-white`}>
-      <span className={`font-semibold ${display === "grid" && "mb-2 text-center min-h-[40px]"} text-center text-lg`}>{contract.client.name || "nome cliente"}</span>
+      <span className={`font-semibold ${display === "grid" && "mb-2 text-center min-h-[40px]"} text-center text-lg`}>Contrato de {contract.client.name.split(" ")[0] || "nome cliente"}</span>
       <span className="uppercase text-sm">{contract.sign_date ? "Assinado" : "Não assinado"}</span>
-      <span>{FormatDate(expirationDate)}</span>
+      <span>{formatDate(expirationDate)}</span>
     </Link>
   );
 };

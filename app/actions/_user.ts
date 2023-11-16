@@ -67,11 +67,11 @@ export async function Login(data: LoginInputs) {
       cookies().set("user_id", authRes.user.id, { maxAge: time_to_live });
       cookies().set(
         CookiesValues.name,
-        authRes.user.user_type === "user" || authRes.user.user_type === null ? CookiesValues.user : CookiesValues.admin,
+        authRes.user.user_type === "client" || authRes.user.user_type === null ? CookiesValues.user : CookiesValues.admin,
         { maxAge: time_to_live }
       );
 
-      if (authRes.user.user_type === "user" || authRes.user.user_type === null) {
+      if (authRes.user.user_type === "client" || authRes.user.user_type === null) {
         if (authRes.user.gateway_id && !authRes.user.verified) {
           redirect("/verificacao/etapa-2");
         }

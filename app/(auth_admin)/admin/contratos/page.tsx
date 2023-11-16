@@ -17,5 +17,5 @@ export default async function ContratosPage() {
 
   const contracts: ContractResponse = await res.json();
 
-  return <ContractList isAdmin contracts={contracts} />;
+  return <ContractList isAdmin newContract contracts={contracts} />;
 }

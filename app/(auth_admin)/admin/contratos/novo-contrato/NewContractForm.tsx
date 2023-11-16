@@ -225,20 +225,25 @@ const NewContractForm = ({ users }: NewContractFormProps) => {
             <option value="" disabled selected>
               Selecione um cliente
             </option>
-            {users?.data.filter((user) => user.user_type === null || user.user_type === "user" && user.verified).map((user) => (
+            {users?.data.filter((user) => user.user_type === null || user.user_type === "client" && user.verified).map((user) => (
               <option key={user.id} value={user.id} className="outline-none">
                 {user.name}
               </option>
             ))}
           </select>
         </div>
-
-        <input
-          type="date"
-          {...register("start_date")}
-          placeholder="Data de início"
-          className={`rounded-md p-2 w-full text-black outline-none ${errors.start_date && "border-red-500"}`}
-        />
+        <div className="flex items-center w-full">
+          <label htmlFor="start_date" className="mr-2 min-w-[200px]">
+            Data de início:
+          </label>
+          <input
+            id="start_date"
+            type="date"
+            {...register("start_date")}
+            placeholder="Data de início"
+            className={`rounded-md p-2 w-full text-black outline-none ${errors.start_date && "border-red-500"}`}
+          />
+        </div>
         {errors.start_date?.message}
         <input
           type="text"

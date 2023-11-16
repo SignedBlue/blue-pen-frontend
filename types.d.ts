@@ -1,10 +1,12 @@
 
 // login request user
+type TUserType = "admin" | "client" | null;
+
 type User = {
   id: string;
   name: string;
   email: string;
-  user_type: string;
+  user_type: TUserType;
   verified?: boolean | string;
   gateway_id: string
 }
@@ -29,6 +31,7 @@ type TAuthResponse =
   | TSuccessLogin
   | TErrorLogin
 
+
 type TUserData = {
   id: string;
   name: string;
@@ -39,7 +42,7 @@ type TUserData = {
   reject_reasons: null | string[];
   gateway_id: string;
   document_status: "not_send" | string | null;
-  user_type: "admin" | "user" | string;
+  user_type: TUserType;
   address: {
     city: string;
     number: string;
@@ -78,6 +81,19 @@ type TContract = {
   created_at: Date;
   updated_at: Date;
   client: TUserData;
+}
+
+type TUserContract = {
+  id: string;
+  contract_id: string;
+  user_id: string;
+  signature_token: string;
+  user_ip: string | null;
+  signed: boolean;
+  user_type: TUserType;
+  signed_date: string;
+  created_at: string | null;
+  updated_at: string | null;
 }
 
 type TPaymentStatus = "PENDING" | "PAID" | "OVERDUE";
@@ -157,5 +173,9 @@ interface DataResponse {
 interface ContractUsers {
   user_id: string;
   contract_id: string;
-  user_type: string;
+  user_type: TUserType;
+}
+
+interface IUserContract {
+  data: TUserContract[];
 }

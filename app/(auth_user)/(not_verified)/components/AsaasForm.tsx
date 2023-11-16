@@ -6,6 +6,7 @@ import { AsaasSchema } from "@/schemas/Asaas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, SubmitHandler } from "react-hook-form";
 import ReactInputMask from "react-input-mask";
+import ReactLoading from "react-loading";
 import { z } from "zod";
 
 type Inputs = z.infer<typeof AsaasSchema>
@@ -16,6 +17,7 @@ const AsaasForm = () => {
     handleSubmit,
     formState: {
       errors,
+      isSubmitting
     },
   } = useForm<Inputs>({
     resolver: zodResolver(AsaasSchema)
@@ -147,9 +149,17 @@ const AsaasForm = () => {
 
       <button
         type='submit'
-        className='w-full bg-[#2a7ce7] hover:bg-[#2a7ce7]/70 ease-out duration-200 text-white text-center rounded-md p-3 mt-4'
+        className={"w-full h-[50px] bg-blue_button ease-out duration-200 text-white text-center rounded-md p-3 mt-4 flex justify-center items-center hover:bg-opacity-80 focus:outline-none"}
       >
-        Enviar
+        {isSubmitting ?
+          <ReactLoading
+            width={40}
+            height={40}
+            color="#fff"
+            type="bars"
+          /> :
+          "Enviar"
+        }
       </button>
     </form>
   );

@@ -11,32 +11,32 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
   });
 
   const contract: TContract = await data.json();
-  const user_data = await fetch(`${backendUrl}/users/${contract.client_id}`);
-  const user: TUserData = await user_data.json();
 
   return {
-    title: !!contract && `Contrato de ${user.name}`
+    title: !!contract && `Contrato de ${contract.client.name.split(" ")[0]}`
   };
 }
 
 export default async function SingleContract({ params: { id: contractId } }: { params: { id: string } }) {
-  const contract_data = await fetch(`${backendUrl}/contracts/${contractId}`, {
-    cache: "no-cache"
-  });
-  const contract: TContract = await contract_data.json();
+  const contractPromise = fetch(`${backendUrl}/contracts/${contractId}`, { cache: "no-cache" })
+    .then((response) => response.json()) as Promise<TContract>;
 
-  const payments_data = await fetch(`${backendUrl}/payments?contract_id=${contractId}`, {
-    cache: "no-cache"
-  });
-  const payments: IPaymentResponse = await payments_data.json();
+  const paymentsPromise = fetch(`${backendUrl}/payments?contract_id=${contractId}`, { cache: "no-cache" })
+    .then((response) => response.json()) as Promise<IPaymentResponse>;
 
-  const user_data = await fetch(`${backendUrl}/users/${contract.client_id}`);
-  const user: TUserData = await user_data.json();
+  const contractUsersPromise = fetch(`${backendUrl}/contract-users?contract_id=${contractId}`, { cache: "no-cache" })
+    .then((response) => response.json() as Promise<IUserContract>);
+
+  const [contract, payments, contract_users] = await Promise.all([
+    contractPromise,
+    paymentsPromise,
+    contractUsersPromise,
+  ]);
 
 
   if (!contract) {
     return notFound();
   }
 
-  return <SingleContractSection contract={contract} user={user} payments={payments.data} />;
+  return <SingleContractSection contract={contract} payments={payments.data} contractUsers={contract_users.data} />;
 }

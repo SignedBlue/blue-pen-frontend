@@ -11,7 +11,7 @@ import { IoIosArrowDropleft, IoIosArrowDroprightCircle } from "react-icons/io";
 import { IconType } from "react-icons/lib";
 
 const UserSidebar = () => {
-  const [open, setopen] = useState<boolean>(false);
+  const [open, setopen] = useState<boolean>(true);
   const pathname = usePathname();
 
   const links: {
@@ -32,7 +32,7 @@ const UserSidebar = () => {
     ];
 
   return (
-    <aside className={`${open ? " w-[250px] min-w-[250px]" : "w-[100px] min-w-[100px]"} ease-in-out duration-300 flex flex-col justify-between bg-neutral-400/40 backdrop-blur-lg text-white items-center gap-y-2 text-xl p-5 rounded-[20px]`}>
+    <aside className={`${open ? " w-[250px] min-w-[250px]" : "w-[100px] min-w-[100px]"} ease-in-out duration-300 flex flex-col justify-between bg-black/40 backdrop-blur-lg text-white items-center gap-y-2 text-xl p-5 rounded-[20px]`}>
       <div className="flex flex-col items-start gap-y-4 w-full">
         <Link href={"/home"} className="flex items-center gap-x-3 mb-10">
           <Image

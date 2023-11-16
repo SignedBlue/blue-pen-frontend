@@ -13,7 +13,6 @@ const AsaasSchema = z.object({
   mobilePhone: z.
     string()
     .min(1, "Campo obrigatório"),
-
   address: z.
     string()
     .min(1, "Campo obrigatório"),

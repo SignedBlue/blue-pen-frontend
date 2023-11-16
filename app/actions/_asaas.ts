@@ -6,7 +6,7 @@ import { redirect } from "next/navigation";
 import { AsaasSchema } from "@/schemas/Asaas";
 import { z } from "zod";
 import { backendUrl } from "@/constants/Urls";
-import { FormatMask } from "@/utils/FormatMask";
+import { cleanMask } from "@/utils/formatters";
 
 type InputAsaas = z.infer<typeof AsaasSchema>
 
@@ -21,10 +21,10 @@ export async function SendAsaasData(data: InputAsaas) {
       addressNumber: data.addressNumber,
       birthDate: data.birthDate,
       complement: data.complement,
-      cpfCnpj: FormatMask(data.cpfCnpj),
-      mobilePhone: FormatMask(data.mobilePhone),
-      phone: FormatMask(data.phone as string),
-      postalCode: FormatMask(data.postalCode),
+      cpfCnpj: cleanMask(data.cpfCnpj),
+      mobilePhone: cleanMask(data.mobilePhone),
+      phone: cleanMask(data.phone as string),
+      postalCode: cleanMask(data.postalCode),
       province: data.province,
       user_id: user_id,
     };

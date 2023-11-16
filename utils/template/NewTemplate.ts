@@ -1,4 +1,4 @@
-import { FormatDate } from "../FormateDate";
+import { formatDate } from "../formatters";
 import { contractStyle } from "./style";
 
 const propostaItens = [
@@ -58,7 +58,7 @@ export const Template =
         <section class="every_section">
             <header>
                 <span class="company_name">${company_name}</span>
-                <span class="date">${FormatDate(new Date())}</span>
+                <span class="date">${formatDate(new Date())}</span>
             </header>
 
             <h3 class="title">Apresentação:</h3>
@@ -87,7 +87,7 @@ export const Template =
         <section class="every_section">
             <header>
                 <span class="company_name">${company_name}</span>
-                <span class="date">${FormatDate(new Date())}</span>
+                <span class="date">${formatDate(new Date())}</span>
             </header>
 
             <h3 class="title">Formas de atendimento:</h3>
@@ -115,7 +115,7 @@ export const Template =
         <section class="every_section">
             <header>
                 <span class="company_name">${company_name}</span>
-                <span class="date">${FormatDate(new Date())}</span>
+                <span class="date">${formatDate(new Date())}</span>
             </header>
 
             <h3 class="title">Sistema de backup:</h3>
@@ -167,7 +167,7 @@ export const Template =
         <section class="every_section">
             <header>
                 <span class="company_name">${company_name}</span>
-                <span class="date">${FormatDate(new Date())}</span>
+                <span class="date">${formatDate(new Date())}</span>
             </header>
             <h3 class="title">Suporte</h3>
         
@@ -186,7 +186,7 @@ export const Template =
             </ul>
             
             <div class="assinatura">
-                <p>Ponta Grossa, ${FormatDate(new Date())}</p>
+                <p>Ponta Grossa, ${formatDate(new Date())}</p>
                 <div class="linha_assinatura">
                     <span class="linha"></span>
                     <div class="names">

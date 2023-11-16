@@ -13,8 +13,9 @@ const Navbar = ({ children, title, routerBack = false }: NavbarProps) => {
         {routerBack && <RouterBackButton />}
         <span className="_title mb-0">{title}</span>
       </div>
-
-      {children}
+      <div className="flex items-center gap-x-5">
+        {children}
+      </div>
     </nav>
   );
 };

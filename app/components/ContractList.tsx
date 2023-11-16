@@ -15,9 +15,10 @@ interface ContractListProps {
   contracts: ContractResponse;
   isAdmin?: boolean;
   routerBack?: boolean;
+  newContract?: boolean;
 }
 
-const ContractList = ({ contracts, isAdmin = false, routerBack = false }: ContractListProps) => {
+const ContractList = ({ contracts, isAdmin = false, routerBack = false, newContract = false }: ContractListProps) => {
   const { display, setDisplay } = useAuthContext();
 
   type Rule = (item: TContract) => boolean;
@@ -44,29 +45,27 @@ const ContractList = ({ contracts, isAdmin = false, routerBack = false }: Contra
 
   return (
     <>
-      <Navbar title="Contratos">
-        <div className="flex items-center gap-x-4">
-          <Modal title="Contratos" content={help_contratos} />
+      <Navbar title="Contratos" routerBack={routerBack}>
+        <Modal title="Contratos" content={help_contratos} />
 
-          {!!isAdmin &&
-            <Link href={"/admin/contratos/novo-contrato"} className="border py-1 px-3 rounded-md hover:bg-white hover:text-neutral-500 ease-out duration-200 font-medium">
-              Novo Contrato
-            </Link>
-          }
-          <div className="flex items-center">
-            <button
-              onClick={() => setDisplay("grid")}
-              className={`${display === "grid" ? "bg-white text-neutral-700" : "text-white"} border border-white w-[25px] h-[25px] flex items-center justify-center rounded-l-md group`}
-            >
-              <i className={`${display !== "grid" ? "group-hover:text-neutral-400 ease-out duration-200" : "cursor-default"}`}><BsGrid /></i>
-            </button>
-            <button
-              onClick={() => setDisplay("column")}
-              className={`${display === "column" ? "bg-white text-neutral-700" : "text-white"} border border-white w-[25px] h-[25px] flex items-center justify-center rounded-r-md group`}
-            >
-              <i className={`${display !== "column" ? "group-hover:text-neutral-400 ease-out duration-200" : "cursor-default"}`}><TfiViewList /></i>
-            </button>
-          </div>
+        {!!newContract &&
+          <Link href={"/admin/contratos/novo-contrato"} className="border py-1 px-3 rounded-md hover:bg-white hover:text-neutral-500 ease-out duration-200 font-medium">
+            Novo Contrato
+          </Link>
+        }
+        <div className="flex items-center">
+          <button
+            onClick={() => setDisplay("grid")}
+            className={`${display === "grid" ? "bg-white text-neutral-700" : "text-white"} border border-white w-[25px] h-[25px] flex items-center justify-center rounded-l-md group`}
+          >
+            <i className={`${display !== "grid" ? "group-hover:text-neutral-400 ease-out duration-200" : "cursor-default"}`}><BsGrid /></i>
+          </button>
+          <button
+            onClick={() => setDisplay("column")}
+            className={`${display === "column" ? "bg-white text-neutral-700" : "text-white"} border border-white w-[25px] h-[25px] flex items-center justify-center rounded-r-md group`}
+          >
+            <i className={`${display !== "column" ? "group-hover:text-neutral-400 ease-out duration-200" : "cursor-default"}`}><TfiViewList /></i>
+          </button>
         </div>
       </Navbar>
 

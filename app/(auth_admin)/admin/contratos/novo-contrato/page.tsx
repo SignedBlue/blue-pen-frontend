@@ -1,9 +1,13 @@
-import RouterBackButton from "@/app/components/RouterBackButton";
-import NewContractForm from "./NewContractForm";
-import { backendUrl } from "@/constants/Urls";
 import { cookies } from "next/headers";
-import Modal from "@/app/components/Modal";
+
+// constants
+import { backendUrl } from "@/constants/Urls";
 import { help_novo_contrato } from "@/constants/Helps";
+
+// components
+import NewContractForm from "./NewContractForm";
+import Modal from "@/app/components/Modal";
+import Navbar from "@/app/components/Navbar";
 
 export default async function NovoContratoPage() {
   const tokenValue = cookies().get("jwt")?.value;
@@ -13,17 +17,15 @@ export default async function NovoContratoPage() {
       "Authorization": `Bearer ${tokenValue}`,
       "Content-Type": "application/json",
     },
-    cache: "no-store"
+    cache: "no-cache"
   });
   const users: DataResponse = await users_res.json();
 
   return (
     <div className="flex flex-col items-start">
-      <nav className="flex items-center gap-x-4 mb-10">
-        <RouterBackButton />
-        <span className="_title mb-0">Novo contrato</span>
+      <Navbar title="Novo contrato" routerBack>
         <Modal title="Novo contrato" content={help_novo_contrato} />
-      </nav>
+      </Navbar>
       <NewContractForm users={users} />
     </div>
   );

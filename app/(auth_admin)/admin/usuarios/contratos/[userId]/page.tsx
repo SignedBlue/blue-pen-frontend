@@ -8,5 +8,5 @@ export default async function SingleUserContracts({ params }: { params: { userId
 
   const contracts: ContractResponse = await contracts_data.json();
 
-  return <ContractList routerBack contracts={contracts} />;
+  return <ContractList isAdmin routerBack contracts={contracts} />;
 }
