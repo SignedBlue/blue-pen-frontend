@@ -33,15 +33,23 @@ const RegisterForm = () => {
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     await CreateUser(data)
-      .then(() => {
-        toast.success("Conta criada com sucesso, por favor faca login para continuar", {
-          style: {
-            padding: "12px",
-          }
-        });
+      .then((res) => {
+        if (res?.statusCode === 409 || res?.payload.error === "Conflict") {
+          toast.error("Este email já está em uso. Por favor, use outro email ou faça login.", {
+            style: {
+              padding: "12px",
+            }
+          });
+        } else {
+          toast.success("Sua conta foi criada com sucesso! Faça login para começar a usar o BluePen.", {
+            style: {
+              padding: "12px",
+            }
+          });
+        }
       })
       .catch(() => {
-        toast.error("Erro ao criar conta BluePen..", {
+        toast.error("Desculpe, houve um problema ao criar sua conta. Por favor, tente novamente mais tarde.", {
           style: {
             padding: "12px",
           }
@@ -50,33 +58,33 @@ const RegisterForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className={`flex flex-col items-center w-full max-w-[450px] ${errors.username || errors.email || errors.password ? "gap-y-1" : "gap-y-2"}`}>
-      <div className="w-full flex flex-col items-center relative gap-y-1">
+    <form onSubmit={handleSubmit(onSubmit)} className={"w-full max-w-[450px] flex flex-col items-center gap-y-2"}>
+      <div className="w-full flex flex-col items-center relative">
         <InputForm
           type="text"
           {...register("username")}
           placeholder="Nome"
         />
-        <span className={`${errors.username ? "h-[20px]" : "h-0"} ease-out duration-200 overflow-x-hidden text-neutral-50 text-xs max-w-[320px] text-center`}>
+        <span className={`${errors.username ? "h-[20px]" : "h-0"} transition-all duration-200 overflow-hidden text-neutral-50 text-xs text-center mt-1`}>
           {errors.username?.message}
         </span>
       </div>
-      <div className="w-full flex flex-col items-center relative gap-y-1">
+      <div className="w-full flex flex-col items-center relative">
         <InputForm
           type="email"
           {...register("email")}
           placeholder="Email"
         />
-        <span className={`${errors.email ? "h-[20px]" : "h-0"} ease-out duration-200 overflow-x-hidden text-neutral-50 text-xs max-w-[320px] text-center`}>
+        <span className={`${errors.email ? "h-[20px]" : "h-0"} transition-all duration-200 overflow-hidden text-neutral-50 text-xs text-center mt-1`}>
           {errors.email?.message}
         </span>
       </div>
-      <div className="w-full flex flex-col items-center relative gap-y-1">
+      <div className="w-full flex flex-col items-center relative">
         <PasswordInput
           {...register("password")}
           placeholder="Senha"
         />
-        <span className={`${errors.password ? "h-[30px]" : "h-0"} ease-out duration-200 overflow-x-hidden text-neutral-50 text-xs max-w-[320px] text-center`}>
+        <span className={`${errors.password ? "h-[30px]" : "h-0"} transition-all duration-200 overflow-hidden text-neutral-50 text-xs text-center mt-1`}>
           {errors.password?.message}
         </span>
       </div>

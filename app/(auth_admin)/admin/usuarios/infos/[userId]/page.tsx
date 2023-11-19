@@ -26,8 +26,8 @@ export default async function UserInfosPage({ params: { userId } }: { params: { 
             <p className="mb-2"><span className="font-semibold">CPF:</span> {formatCPF(user.cpf)}</p>
             <p className="mb-2">
               <span className="font-semibold">Status do Documento: </span>
-              <span className={`${user.document_status === "APPROVED" ? "text-green-500" : user.document_status === "REJECTED" ? "text-red-500" : "text-yellow-400"}`}>
-                {VerifyDocumentStatus(user.document_status as string)}
+              <span className={`${user.document_status === "APPROVED" ? "text-green-500" : user.document_status === "REJECTED" ? "text-red-500" : "text-yellow-400"} uppercase font-medium`}>
+                {VerifyDocumentStatus(user.document_status)}
               </span>
             </p>
           </div>

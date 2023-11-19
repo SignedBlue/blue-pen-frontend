@@ -3,10 +3,11 @@ import { z } from "zod";
 const UserSchemaLogin = z.object({
   identifier: z
     .string()
-    .min(1, "Identificador não pode ser nulo"),
+    .min(1, "Por favor, forneça um identificador válido.")
+    .email("O email fornecido é inválido."),
   password: z
     .string()
-    .min(1, "Senha não pode ser nula")
+    .min(1, "A senha não pode ser deixada em branco.")
   ,
   connected: z
     .boolean()
@@ -16,14 +17,14 @@ const UserSchemaLogin = z.object({
 const UserSchemaRegister = z.object({
   username: z
     .string()
-    .min(1, { message: "Nome não pode ser nulo" }),
+    .min(1, "Por favor, insira um nome válido."),
   email: z
     .string()
-    .min(1, { message: "Email não pode ser nulo" })
-    .email("Email inválido"),
+    .min(1, "O email não pode ser deixado em branco.")
+    .email("O email fornecido é inválido."),
   password: z
     .string()
-    .min(1, { message: "Senha não pode ser nula" })
+    .min(1, "A senha não pode ser deixada em branco.")
     .trim()
     .min(6, { message: "A senha deve ter pelo menos 6 caracteres." })
     .refine(value => /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()])[A-Za-z\d!@#$%^&*()]+$/.test(value), {

@@ -1,4 +1,4 @@
-export function VerifyDocumentStatus(status: string) {
+export function VerifyDocumentStatus(status: TDocumentStatus) {
   switch (status) {
     case "NOT_SENT":
       return "Não enviado";

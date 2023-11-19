@@ -15,7 +15,7 @@ async function getData(query: string, init?: RequestInit | undefined) {
 
   const data = await res.json();
 
-  if (!res.ok) throw new Error("Failed to fetch data");
+  // if (!res.ok) throw new Error("Failed to fetch data");
 
   return data;
 }

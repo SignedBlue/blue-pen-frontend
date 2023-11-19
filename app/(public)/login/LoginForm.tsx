@@ -1,7 +1,5 @@
 "use client";
 
-import React, { useState } from "react";
-
 // components
 import InputForm from "../components/InputForm";
 import PasswordInput from "../components/PasswordInput";
@@ -33,14 +31,20 @@ const LoginForm = () => {
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     await Login(data)
       .then((res) => {
-        if (res === undefined) {
-          toast.success(`Bem-vindo novamente ${data.identifier}`, {
+        if (res?.payload.error === "Unauthorized" || res?.statusCode === 401) {
+          toast.error("Senha ou email inválidos. Por favor, verifique suas credenciais.", {
             style: {
               padding: "12px",
-            }
+            },
+          });
+        } else if (res?.payload.error === "Not Found" || res?.statusCode === 404) {
+          toast.error("Usuário não encontrado. Verifique se está usando as credenciais corretas.", {
+            style: {
+              padding: "12px",
+            },
           });
         } else {
-          toast.error("Senha ou email inválidos", {
+          toast.success(`Bem-vindo novamente, ${data.identifier}!`, {
             style: {
               padding: "12px",
             }
@@ -48,31 +52,32 @@ const LoginForm = () => {
         }
       })
       .catch(() => {
-        toast.error("Falha na req");
+        toast.error("Houve um erro na requisição. Por favor, tente novamente mais tarde.", {
+          style: {
+            padding: "12px",
+          },
+        });
       });
   };
 
-  const [pass, setPass] = useState<string>("");
-
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col items-center gap-y-3 w-full max-w-[450px] lg:min-w-[450px]'>
-      <div className="w-full flex flex-col items-center relative gap-y-1">
+    <form onSubmit={handleSubmit(onSubmit)} className='w-full max-w-[450px] lg:min-w-[450px] flex flex-col items-center gap-y-2'>
+      <div className="w-full flex flex-col items-center relative">
         <InputForm
           type="text"
           {...register("identifier")}
           placeholder='Email'
         />
-        <span className={`${errors.identifier ? "h-[20px]" : "h-0"} ease-linear duration-200 overflow-x-hidden text-xs w-full text-center text-white`}>
+        <span className={`${errors.identifier ? "h-[20px]" : "h-0"} transition-all duration-200 overflow-hidden text-xs w-full text-center text-white mt-1`}>
           {errors.identifier?.message}
         </span>
       </div>
-      <div className="w-full flex flex-col items-center relative gap-y-1">
+      <div className="w-full flex flex-col items-center relative">
         <PasswordInput
           {...register("password")}
           placeholder='Senha'
-          onChange={(e) => setPass(e.target.value)}
         />
-        <span className={`${errors.password ? "h-[20px]" : "h-0"} ease-linear duration-200 overflow-x-hidden text-xs w-full text-center text-white`}>
+        <span className={`${errors.password ? "h-[20px]" : "h-0"} transition-all duration-200 overflow-hidden text-xs w-full text-center text-white mt-1`}>
           {errors.password?.message}
         </span>
       </div>
@@ -90,7 +95,7 @@ const LoginForm = () => {
       </div>
       <button
         type='submit'
-        className={`w-full h-[50px] bg-blue_button ease-out duration-200 text-white text-center rounded-md p-3 mt-4 flex justify-center items-center hover:bg-opacity-80 focus:outline-none ${pass.length < 6 ? "" : ""}`}
+        className={"w-full h-[50px] bg-blue_button ease-out duration-200 text-white text-center rounded-md p-3 mt-4 flex justify-center items-center hover:bg-opacity-80 focus:outline-none outline-none"}
       >
         {isSubmitting ?
           <ReactLoading

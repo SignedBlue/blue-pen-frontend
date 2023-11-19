@@ -4,7 +4,7 @@ export default async function Home() {
   return (
     <div className="flex flex-col items-start text-white">
       <p className="_title">Melhore o processo de <b className="bg-gradient-to-r text-transparent from-[#9dbff8] to-[#3686f1] bg-clip-text">criação</b> e <b className="bg-gradient-to-l text-transparent from-[#9dbff8] to-[#3686f1] bg-clip-text">assinatura</b> de seus contratos.</p>
-      <ol className="flex flex-col items-start gap-y-1">
+      <ol className="flex flex-col items-start gap-y-1 mt-5">
         <li>• Gerador de documentos</li>
         <li>• Templates personalizados</li>
         <li>• Preenchimento automático</li>

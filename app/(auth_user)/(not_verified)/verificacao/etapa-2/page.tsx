@@ -1,15 +1,15 @@
-import { backendUrl } from "@/constants/Urls";
 import { VerifyDocumentStatus } from "@/utils/VerifyDocumentStatus";
+import { getData } from "@/utils/getData";
 import { cookies } from "next/headers";
 
 export default async function Etapa2Page() {
   const user_id = cookies().get("user_id")?.value;
-  const res = await fetch(`${backendUrl}/users/account/${user_id}`, {
+
+  const resData: TSuccessAsaas = await getData(`/users/account/${user_id}`, {
     cache: "no-cache"
   });
 
-  const resData: AsaasResponse = await res.json();
-  const data = resData.data[0];
+  const data = !!resData && resData.data[0];
 
   return (
     <section className="flex flex-col items-center rounded-lg p-4 mb-4">

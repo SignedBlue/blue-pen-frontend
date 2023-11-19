@@ -1,3 +1,13 @@
+/** @type erros possiveis para criação de novos usuarios*/
+type TCreatedUser = {
+  state: "Error";
+  statusCode: 409;
+  payload: {
+    statusCode: number;
+    error: "Conflict";
+    message: string;
+  }
+}
 
 // login request user
 type TUserType = "admin" | "client" | null;
@@ -19,10 +29,10 @@ type TSuccessLogin = {
 
 type TErrorLogin = {
   state: "Error";
-  statusCode: number;
+  statusCode: 401 | 404;
   payload: {
     statusCode: number;
-    error: string;
+    error: "Unauthorized" | "Not Found";
     message: string;
   }
 }
@@ -31,6 +41,7 @@ type TAuthResponse =
   | TSuccessLogin
   | TErrorLogin
 
+type TDocumentStatus = "NOT_SENT" | "PENDING" | "AWAITING_APPROVAL" | "APPROVED" | "REJECTED";
 
 type TUserData = {
   id: string;
@@ -41,7 +52,7 @@ type TUserData = {
   wallet_id: string;
   reject_reasons: null | string[];
   gateway_id: string;
-  document_status: "not_send" | string | null;
+  document_status: TDocumentStatus;
   user_type: TUserType;
   address: {
     city: string;
@@ -148,7 +159,18 @@ interface ContractReq {
   contract: TContract;
 }
 
-interface AsaasResponse {
+type TErrorAsaas = {
+  state: "Error";
+  statusCode: number;
+  payload: {
+    statusCode: number;
+    error: string;
+    message: string;
+  }
+}
+
+type TSuccessAsaas = {
+  state: "Success";
   rejectReasons: null;
   data: {
     id: string;
@@ -165,6 +187,8 @@ interface AsaasResponse {
     documents: any[];
   }[];
 }
+
+type TAsaasResponse = TErrorAsaas | TSuccessAsaas;
 
 interface DataResponse {
   data: TUserData[];

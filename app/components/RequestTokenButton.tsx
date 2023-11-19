@@ -7,10 +7,10 @@ import ReactLoading from "react-loading";
 
 interface RequestTokenButtonProps {
   contract_id: string;
+  document_status?: TDocumentStatus;
 }
-const RequestTokenButton = ({
-  contract_id
-}: RequestTokenButtonProps) => {
+const RequestTokenButton = ({ contract_id, document_status }: RequestTokenButtonProps) => {
+
   const [tokenSended, setTokenSended] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [tokenValue, setTokenValue] = useState<string>("");
@@ -58,6 +58,14 @@ const RequestTokenButton = ({
         setLoading(false);
       });
   };
+
+  if (document_status !== "APPROVED") {
+    return (
+      <div className="w-full h-[80px] bg-neutral-500 ease-out duration-200 text-white text-center rounded-md p-3 mt-2">
+        Desculpe, você <b className="font-semibold">não pode</b> assinar o contrato, pois seus documentos não foram aprovados.
+      </div>
+    );
+  }
 
   if (!tokenSended) {
     return (

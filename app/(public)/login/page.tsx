@@ -1,8 +1,9 @@
 import { Metadata } from "next";
-import LoginForm from "./LoginForm";
-import WelcomeText from "./WelcomeText";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+
+import LoginForm from "./LoginForm";
+
 import { CookiesValues } from "@/constants/Cookies";
 
 export const metadata: Metadata = {
@@ -20,7 +21,7 @@ export default function LoginPage() {
     <main className="flex flex-col items-center justify-center gap-y-5 w-full">
       <div className="flex flex-col items-center text-white ">
         <span className="_title mb-0">Bem-vindo de volta</span>
-        <WelcomeText />
+        <p className="text-sm">Faça login para continuar.</p>
       </div>
       <LoginForm />
     </main>

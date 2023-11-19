@@ -1,38 +1,37 @@
 "use server";
 
-import { CookiesValues } from "@/constants/Cookies";
-import { backendUrl } from "@/constants/Urls";
-import { UserSchemaLogin, UserSchemaRegister } from "@/schemas/User";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+
+import { CookiesValues } from "@/constants/Cookies";
+
+import { UserSchemaLogin, UserSchemaRegister } from "@/schemas/User";
+import { getData } from "@/utils/getData";
+
+// libs
 import { z } from "zod";
 
 type CreateUserInputs = z.infer<typeof UserSchemaRegister>
 
 export async function CreateUser(data: CreateUserInputs) {
 
-  const result = UserSchemaRegister.safeParse(data);
-
-  if (result.success) {
+  if (UserSchemaRegister.safeParse(data).success) {
     const user = {
       name: data.username as string,
       email: data.email as string,
       password: data.password as string,
     };
 
-    const createdUser = await fetch(`${backendUrl}/users`, {
+    const createdUser: TCreatedUser = await getData("/users", {
       method: "POST",
-      headers: {
-        "Content-type": "application/json",
-      },
       body: JSON.stringify(user)
     });
 
-    const res: TUserData = await createdUser.json();
+    if (createdUser.statusCode !== 409) {
+      redirect("/login");
+    }
 
-    redirect("/login");
-
-    return res;
+    return createdUser;
   }
 }
 
@@ -40,35 +39,28 @@ type LoginInputs = z.infer<typeof UserSchemaLogin>
 
 export async function Login(data: LoginInputs) {
 
-  const result = UserSchemaLogin.safeParse(data);
-
-  if (result.success) {
+  if (UserSchemaLogin.safeParse(data).success) {
     const user = {
       email: data.identifier as string,
       password: data.password as string
     };
 
-    const res = await fetch(`${backendUrl}/users/auth`, {
+    const authRes: TAuthResponse = await getData("/users/auth", {
       method: "POST",
-      headers: {
-        "Content-type": "application/json",
-      },
       cache: "no-cache",
       body: JSON.stringify(user)
     });
 
-    const authRes: TSuccessLogin = await res.json();
-
-    if (res.ok && authRes.token) {
+    if ("token" in authRes) {
       const time_to_live = data.connected ? 60 * 60 : 10;
 
-      cookies().set("jwt", authRes.token, { maxAge: time_to_live });
-      cookies().set("name", authRes.user.name, { maxAge: time_to_live });
-      cookies().set("user_id", authRes.user.id, { maxAge: time_to_live });
+      cookies().set("jwt", authRes.token, { maxAge: time_to_live, secure: true, httpOnly: true });
+      cookies().set("name", authRes.user.name, { maxAge: time_to_live, secure: true, httpOnly: true });
+      cookies().set("user_id", authRes.user.id, { maxAge: time_to_live, secure: true, httpOnly: true });
       cookies().set(
         CookiesValues.name,
         authRes.user.user_type === "client" || authRes.user.user_type === null ? CookiesValues.user : CookiesValues.admin,
-        { maxAge: time_to_live }
+        { maxAge: time_to_live, secure: true, httpOnly: true }
       );
 
       if (authRes.user.user_type === "client" || authRes.user.user_type === null) {
@@ -80,9 +72,11 @@ export async function Login(data: LoginInputs) {
       } else if (authRes.user.user_type === "admin") {
         redirect("/admin/dash");
       }
-    }
+    } else {
+      const errorResponse = authRes as TErrorLogin;
 
-    return authRes;
+      return errorResponse;
+    }
   }
 }
 
