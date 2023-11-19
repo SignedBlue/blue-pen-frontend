@@ -19,7 +19,7 @@ export default function VerifiedUserLayout({ children }: { children: React.React
       <span className="w-[35vw] h-[450px] border-2 border-white/50 absolute top-[15%] left-[10%] skew-x-[45deg]" />
       <UserSidebar />
       <section className="w-full flex flex-col items-stretch gap-y-4">
-        <header className="px-10 py-5 flex items-center justify-between bg-black/40 backdrop-blur-lg text-white rounded-[25px]">
+        <header className="px-10 py-5 flex items-center justify-between bg-black/40 backdrop-blur-lg text-white rounded-[25px] z-50">
           <PathView />
           <div className="flex items-center justify-end gap-x-5">
             <UserAccount userName={userName as string} />

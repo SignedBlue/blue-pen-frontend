@@ -18,13 +18,14 @@ const UserAccount = ({ userName }: UserAccountProps) => {
           <Popover.Button
             className={`
                 ${open ? "text-white" : "text-white/90"}
-                group inline-flex items-center rounded-md bg-blue_button px-3 py-2 text-base font-medium hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75`}
+                group inline-flex items-center gap-x-2 rounded-lg bg-neutral-400 px-3 py-2 text-base font-medium hover:text-white focus:outline-none outline-none hover:bg-neutral-400/90`}
           >
+            <span className="w-[30px] h-[30px] flex items-center text-sm uppercase justify-center bg-white rounded-full text-dark_bg font-bold">{userName.slice(0, 1)}</span>
             <span>{userName}</span>
             <FaChevronDown
               className={`
-                  ${open ? "text-neutral-300" : "text-neutral-300/70"}
-                  ml-2 h-5 w-5 transition duration-150 ease-in-out group-hover:text-neutral-300/80`}
+              ${open ? "rotate-180" : ""}
+              h-3 w-3 transition duration-150 ease-in-out`}
               aria-hidden="true"
             />
           </Popover.Button>

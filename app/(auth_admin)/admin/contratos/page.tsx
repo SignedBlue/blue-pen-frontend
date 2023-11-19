@@ -7,7 +7,9 @@ export const metadata: Metadata = {
 };
 
 export default async function ContratosPage() {
-  const contracts: ContractResponse = await getData("/contracts");
+  const contracts: ContractResponse = await getData("/contracts", {
+    cache: "no-cache"
+  });
 
   return <ContractList isAdmin newContract contracts={contracts} />;
 }

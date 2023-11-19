@@ -1,17 +1,19 @@
 "use client";
 
-import React from "react";
-import ContractArticle from "./ContractArticle";
+import { useSearchParams } from "next/navigation";
+import Link from "next/link";
+
 import { BsGrid } from "react-icons/bs";
 import { TfiViewList } from "react-icons/tfi";
+
 import { useAuthContext } from "@/providers/AuthProvider";
-import Link from "next/link";
-import RouterBackButton from "./RouterBackButton";
-import Modal from "./Modal";
 import { help_contratos } from "@/constants/Helps";
-import Navbar from "./Navbar";
-import { useSearchParams } from "next/navigation";
+
+import ContractArticle from "./ContractArticle";
 import ContractFilter from "./ContractFilter";
+import Modal from "./Modal";
+import Navbar from "./Navbar";
+import RouterBackButton from "./RouterBackButton";
 
 interface ContractListProps {
   contracts: ContractResponse;
@@ -23,18 +25,45 @@ interface ContractListProps {
 const ContractList = ({ contracts, isAdmin = false, routerBack = false, newContract = false }: ContractListProps) => {
   const { display, setDisplay } = useAuthContext();
 
-  const duration = useSearchParams().get("duration") || "";
   type Rule = (item: TContract) => boolean;
   const rules: Rule[] = [];
 
-  // Regra de filtro para duração se duration existir nos parâmetros de pesquisa
-  if (duration) {
-    rules.push((item) => item.duration <= Number(duration));
+  // duração
+  const duration_params = useSearchParams().get("duration") || "";
+  if (duration_params) {
+    rules.push((item) => item.duration <= Number(duration_params));
   }
 
-  // Outras regras de filtro podem ser adicionadas conforme necessário
-  // rules.push(item => item.client_id === "6254fab0-3c2a-4583-aea0-9ce9a7575b83");
-  // rules.push(item => new Date(item.created_at) > new Date("2023-05-13"));
+  // nome do cliente
+  const name_params = useSearchParams().get("client_name") || "";
+  if (name_params) {
+    rules.push(item => item.client.name.toLowerCase().includes(name_params.toLowerCase()));
+  }
+
+  // data de vencimento próxima
+  const near_expiration_params = useSearchParams().get("near_expiration") || "";
+  const ruleNearExpiration = (item: TContract) => {
+    const currentDate = new Date();
+    const limitDate = new Date();
+    limitDate.setMonth(limitDate.getMonth() + 1);
+
+    if (item.termination_date) {
+      const terminationDate = new Date(item.termination_date);
+      return terminationDate > currentDate && terminationDate <= limitDate;
+    }
+    return false;
+  };
+
+  if (near_expiration_params) {
+    rules.push(ruleNearExpiration);
+  }
+
+  const sign_status_params = useSearchParams().get("sign_status") || "";
+  if (sign_status_params === "signed") {
+    rules.push(item => item.sign_date !== null);
+  } else if (sign_status_params === "unsigned") {
+    rules.push(item => item.sign_date == null);
+  }
 
   const filteredContracts = contracts?.data.filter((item) => {
     return rules.every((rule) => rule(item));
@@ -78,16 +107,25 @@ const ContractList = ({ contracts, isAdmin = false, routerBack = false, newContr
         </div>
       </Navbar>
 
-      <div className={`${display === "grid" ? "flex flex-col md:grid grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4" : "flex flex-col"} gap-5 w-full`}>
-        {filteredContracts.map((cont) =>
-          <ContractArticle
-            key={cont.id}
-            href={isAdmin ? "/admin/contratos" : "/contratos"}
-            contract={cont}
-            display={display}
-          />
+      <div className={`${display === "grid" && filteredContracts.length > 0
+        ? "flex flex-col md:grid grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4"
+        : "flex flex-col"
+        } gap-5 w-full`}
+      >
+        {filteredContracts.length > 0 ? (
+          filteredContracts.map((cont) => (
+            <ContractArticle
+              key={cont.id}
+              href={isAdmin ? "/admin/contratos" : "/contratos"}
+              contract={cont}
+              display={display}
+            />
+          ))
+        ) : (
+          <span>Nenhum contrato encontrado</span>
         )}
       </div>
+
     </>
   );
 };

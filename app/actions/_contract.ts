@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import { revalidateTag } from "next/cache";
 import { backendUrl } from "@/constants/Urls";
 import { cookies } from "next/headers";
+import { getData } from "@/utils/getData";
 
 export async function CreateContract(data: INewContract) {
   const user_id = cookies().get("user_id")?.value;
@@ -56,20 +57,16 @@ export async function CreateContract(data: INewContract) {
 export async function RequestToken(contract_id: string) {
   const user_id = cookies().get("user_id")?.value;
 
-  const res = await fetch(`${backendUrl}/contract-users/token`, {
+  const res = await getData("/contract-users/token", {
     method: "POST",
-    headers: {
-      "Content-type": "application/json",
-    },
+    cache: "no-cache",
     body: JSON.stringify({
       user_id: user_id,
       contract_id: contract_id
     })
   });
 
-  if (res?.ok) {
-    return res;
-  }
+  return res;
 }
 
 export async function SignContract({ token, contract_id }: { token: string; contract_id: string }) {
