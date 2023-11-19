@@ -43,6 +43,8 @@ type TAuthResponse =
 
 type TDocumentStatus = "NOT_SENT" | "PENDING" | "AWAITING_APPROVAL" | "APPROVED" | "REJECTED";
 
+/** @type para user com todos os atributos*/
+
 type TUserData = {
   id: string;
   name: string;
@@ -124,7 +126,7 @@ type TPayment = {
   updated_at: Date | null;
 }
 
-interface NewContract {
+interface INewContract {
   duration: number;
   start_date: string;
   details: {

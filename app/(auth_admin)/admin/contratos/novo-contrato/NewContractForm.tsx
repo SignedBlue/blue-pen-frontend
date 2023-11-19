@@ -30,8 +30,8 @@ const NewContractForm = ({ users }: NewContractFormProps) => {
 
   // items proposta
   const [propostaItens, setPropostaItens] = useState<string[]>([
-    "Implantar um servidor Windows Server 2019 que ficará com a função de servidor de armazenamento de arquivos, possuindo controle de acessos na rede com senha para cada usuário gerenciando a rede de forma mais complexa;",
-    "Implantar um Mikrotik com função de failover de internet, caso o link principal sofra uma falha ou interrompendo do serviço, o aparelho realiza a troca do link de forma automática. Mantendo a conexão e acesso à internet, estável;",
+    // "Implantar um servidor Windows Server 2019 que ficará com a função de servidor de armazenamento de arquivos, possuindo controle de acessos na rede com senha para cada usuário gerenciando a rede de forma mais complexa;",
+    // "Implantar um Mikrotik com função de failover de internet, caso o link principal sofra uma falha ou interrompendo do serviço, o aparelho realiza a troca do link de forma automática. Mantendo a conexão e acesso à internet, estável;",
   ]);
 
   const [newPropostaItem, setNewPropostaItem] = useState<string>("");
@@ -45,15 +45,15 @@ const NewContractForm = ({ users }: NewContractFormProps) => {
 
   // items servico
   const [servicoItens, setServicoItens] = useState<string[]>([
-    "Manutenção em Máquinas Windows.",
-    "Manutenção em Servidores Windows.",
-    "Manutenção em Backup de Servidores e Máquinas.",
-    "Backup em nuvem utilizando serviço em nuvem.",
-    "Monitoramento da rede com Pandora e RDPGuard.",
-    "Proteção de infraestrutura.",
-    "Terminal Service – Permite o acesso de cliente/estações remotas para uso do recurso da Rede Local.",
-    "Serviço de AD (Active Directory) – Segurança completa conforme a LGPD(Lei de Proteção dos Dados).",
-    "Configuração de hardware (impressoras, scanner, wireless)."
+    // "Manutenção em Máquinas Windows.",
+    // "Manutenção em Servidores Windows.",
+    // "Manutenção em Backup de Servidores e Máquinas.",
+    // "Backup em nuvem utilizando serviço em nuvem.",
+    // "Monitoramento da rede com Pandora e RDPGuard.",
+    // "Proteção de infraestrutura.",
+    // "Terminal Service – Permite o acesso de cliente/estações remotas para uso do recurso da Rede Local.",
+    // "Serviço de AD (Active Directory) – Segurança completa conforme a LGPD(Lei de Proteção dos Dados).",
+    // "Configuração de hardware (impressoras, scanner, wireless)."
   ]);
 
   const [newServicoItem, setNewServicoItem] = useState<string>("");
@@ -67,9 +67,9 @@ const NewContractForm = ({ users }: NewContractFormProps) => {
 
   // niveis de suporte
   const [suporteItens, setSuporteItens] = useState<string[]>([
-    "Realização de manutenção preventiva e corretiva no hardware e software dos computadores e servidores do cliente.",
-    "Utilização Pandora para monitorar o servidor e a rede, para que nos alerte qualquer tipo de anormalidade que possa estar ocorrendo.",
-    "Utilização RdpGuard para prevenção contra ramsoware e possíveis ataques na rede."
+    // "Realização de manutenção preventiva e corretiva no hardware e software dos computadores e servidores do cliente.",
+    // "Utilização Pandora para monitorar o servidor e a rede, para que nos alerte qualquer tipo de anormalidade que possa estar ocorrendo.",
+    // "Utilização RdpGuard para prevenção contra ramsoware e possíveis ataques na rede."
   ]);
 
   const [newSuporteItem, setNewSuporteItem] = useState<string>("");
@@ -90,9 +90,9 @@ const NewContractForm = ({ users }: NewContractFormProps) => {
 
   // valores
   const [valoresImplantacao, setValoresImplantacao] = useState<{ servico: string; valor: number }[]>([
-    { "servico": "Formatação e Configuração Windows Server 2019", "valor": 1000 },
-    { "servico": "Configuração Failover de Internet + Mikrotik", "valor": 800 },
-    { "servico": "Configuração Backup’s", "valor": 500 }
+    // { "servico": "Formatação e Configuração Windows Server 2019", "valor": 1000 },
+    // { "servico": "Configuração Failover de Internet + Mikrotik", "valor": 800 },
+    // { "servico": "Configuração Backup’s", "valor": 500 }
   ]);
   const totalSum = valoresImplantacao.reduce((acc, item) => acc + item.valor, 0);
 
@@ -111,7 +111,7 @@ const NewContractForm = ({ users }: NewContractFormProps) => {
   };
 
   const onSubmit: SubmitHandler<TInputs> = async (data) => {
-    const teste: NewContract = {
+    const newContract: INewContract = {
       client_id: data.client_id,
       duration: Number(data.duration),
       created_at: new Date(),
@@ -129,7 +129,7 @@ const NewContractForm = ({ users }: NewContractFormProps) => {
       }
     };
 
-    await CreateContract(teste);
+    await CreateContract(newContract);
   };
 
   return (

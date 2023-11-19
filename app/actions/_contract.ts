@@ -5,7 +5,7 @@ import { revalidateTag } from "next/cache";
 import { backendUrl } from "@/constants/Urls";
 import { cookies } from "next/headers";
 
-export async function CreateContract(data: NewContract) {
+export async function CreateContract(data: INewContract) {
   const user_id = cookies().get("user_id")?.value;
 
   const response = await fetch(`${backendUrl}/contracts`, {

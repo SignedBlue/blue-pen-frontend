@@ -10,6 +10,8 @@ import RouterBackButton from "./RouterBackButton";
 import Modal from "./Modal";
 import { help_contratos } from "@/constants/Helps";
 import Navbar from "./Navbar";
+import { useSearchParams } from "next/navigation";
+import ContractFilter from "./ContractFilter";
 
 interface ContractListProps {
   contracts: ContractResponse;
@@ -21,15 +23,22 @@ interface ContractListProps {
 const ContractList = ({ contracts, isAdmin = false, routerBack = false, newContract = false }: ContractListProps) => {
   const { display, setDisplay } = useAuthContext();
 
+  const duration = useSearchParams().get("duration") || "";
   type Rule = (item: TContract) => boolean;
-  const rules: Rule[] = [
-    // item => item.sign_date
-    // item => item.duration >= 10,
-    // item => item.client_id === "6254fab0-3c2a-4583-aea0-9ce9a7575b83",
-    // item => new Date(item.created_at) > new Date("2023-05-13"),
-  ];
+  const rules: Rule[] = [];
 
-  const filteredContracts = contracts?.data.filter(item => rules.reduce((acc, rule) => acc && rule(item), true));
+  // Regra de filtro para duração se duration existir nos parâmetros de pesquisa
+  if (duration) {
+    rules.push((item) => item.duration <= Number(duration));
+  }
+
+  // Outras regras de filtro podem ser adicionadas conforme necessário
+  // rules.push(item => item.client_id === "6254fab0-3c2a-4583-aea0-9ce9a7575b83");
+  // rules.push(item => new Date(item.created_at) > new Date("2023-05-13"));
+
+  const filteredContracts = contracts?.data.filter((item) => {
+    return rules.every((rule) => rule(item));
+  });
 
   if (contracts.total === 0) {
     return (
@@ -52,6 +61,7 @@ const ContractList = ({ contracts, isAdmin = false, routerBack = false, newContr
             Novo Contrato
           </Link>
         }
+        <ContractFilter />
         <div className="flex items-center">
           <button
             onClick={() => setDisplay("grid")}
