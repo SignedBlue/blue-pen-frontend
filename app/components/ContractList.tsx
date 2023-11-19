@@ -47,7 +47,6 @@ const ContractList = ({ contracts, isAdmin = false, routerBack = false, newContr
     <>
       <Navbar title="Contratos" routerBack={routerBack}>
         <Modal title="Contratos" content={help_contratos} />
-
         {!!newContract &&
           <Link href={"/admin/contratos/novo-contrato"} className="border py-1 px-3 rounded-md hover:bg-white hover:text-neutral-500 ease-out duration-200 font-medium">
             Novo Contrato

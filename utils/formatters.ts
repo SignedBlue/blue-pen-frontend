@@ -34,4 +34,10 @@ const formatDate = (date: Date): string => {
   return formattedDate;
 };
 
-export { formatPhoneNumber, formatPostalCode, formatCPF, cleanMask, formatDate };
+export {
+  formatPhoneNumber,
+  formatPostalCode,
+  formatCPF,
+  cleanMask,
+  formatDate
+};
