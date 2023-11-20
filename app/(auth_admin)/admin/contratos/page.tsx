@@ -1,6 +1,8 @@
 import { Metadata } from "next";
 import ContractList from "@/app/components/ContractList";
 import { getData } from "@/utils/getData";
+import { Suspense } from "react";
+import LoadingSkeleton from "@/app/components/LoadingSkeleton";
 
 export const metadata: Metadata = {
   title: "Contratos",
@@ -14,5 +16,9 @@ export default async function ContratosPage() {
     }
   });
 
-  return <ContractList isAdmin newContract contracts={contracts} />;
+  return (
+    <Suspense fallback={<LoadingSkeleton />}>
+      <ContractList isAdmin newContract contracts={contracts} />
+    </Suspense>
+  );
 }

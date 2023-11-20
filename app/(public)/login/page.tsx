@@ -14,7 +14,7 @@ export default function LoginPage() {
   const cookie = cookies();
 
   if (cookie.has("jwt") && cookie.has(CookiesValues.name)) {
-    redirect(cookie.get(CookiesValues.name)?.value === CookiesValues.admin ? "/dash?refresh" : "/home?refresh");
+    redirect(cookie.get(CookiesValues.name)?.value === CookiesValues.admin ? "/admin/dash?refresh" : "/home?refresh");
   }
 
   return (

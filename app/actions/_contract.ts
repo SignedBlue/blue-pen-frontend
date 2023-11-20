@@ -75,7 +75,7 @@ export async function SignContract({ token, contract_id }: { token: string; cont
   return res;
 }
 
-export async function CancelContract({ user_id }: { termination_date: string; user_id: string }) {
+export async function CancelContract({ user_id }: { user_id: string }) {
   await getData("/contracts/sign", {
     method: "PATCH",
     cache: "no-cache",
