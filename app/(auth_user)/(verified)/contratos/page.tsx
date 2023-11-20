@@ -20,7 +20,7 @@ export default async function UserContractsPage() {
 
   return (
     <Suspense fallback={<LoadingSkeleton />}>
-      <ContractList isAdmin newContract contracts={contracts} />
+      <ContractList contracts={contracts} />
     </Suspense>
   );
 }
