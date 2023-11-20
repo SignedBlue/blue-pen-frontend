@@ -1,5 +1,5 @@
 import GenericArticle from "@/app/components/GenericArticle";
-import { backendUrl } from "@/constants/Urls";
+import { getData } from "@/utils/getData";
 import { Metadata } from "next";
 import { cookies } from "next/headers";
 import Link from "next/link";
@@ -9,18 +9,16 @@ export const metadata: Metadata = {
 };
 export default async function HomePageUser() {
   const user_id = cookies().get("user_id")?.value;
-  const contract_res = await fetch(`${backendUrl}/contracts?client_id=${user_id}`, {
+  const contracts: ContractResponse = await getData(`/contracts?client_id=${user_id}`, {
+    cache: "no-cache",
     next: {
       tags: ["contracts"]
     },
-    cache: "no-cache"
   });
-
-  const contracts: ContractResponse = await contract_res.json();
 
   return (
     <div className="h-full flex flex-col items-start">
-      <h1 className="_title">Home</h1>
+      <h1 className="_title mb-10">Home</h1>
       <div className="flex flex-col items-start w-full">
         <div className="grid grid-cols-3 gap-5 w-full">
           <GenericArticle className="w-full">

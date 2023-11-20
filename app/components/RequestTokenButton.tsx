@@ -4,6 +4,7 @@ import { useState } from "react";
 import { SignContract, RequestToken } from "../actions/_contract";
 import toast from "react-hot-toast";
 import ReactLoading from "react-loading";
+import { useRouter } from "next/navigation";
 
 interface RequestTokenButtonProps {
   contract_id: string;
@@ -14,6 +15,8 @@ const RequestTokenButton = ({ contract_id, document_status }: RequestTokenButton
   const [tokenSended, setTokenSended] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [tokenValue, setTokenValue] = useState<string>("");
+
+  const { refresh } = useRouter();
 
   const request = async (id: string) => {
     setLoading(true);
@@ -39,15 +42,15 @@ const RequestTokenButton = ({ contract_id, document_status }: RequestTokenButton
 
   const sign = async ({ token, contract_id }: { token: string; contract_id: string }) => {
     setLoading(true);
-    await SignContract({ contract_id, token })
+    await SignContract({ token, contract_id })
       .then(() => {
-        toast.success("Contrato assinado com sucesso", {
+        toast.success("O contrato foi assinado com sucesso e agora está disponível para visualização.", {
           style: {
             padding: "12px",
           },
         });
-        setTokenSended(true);
         setLoading(false);
+        refresh();
       })
       .catch(() => {
         toast.error("Erro ao assinar contrato", {

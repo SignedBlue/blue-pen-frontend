@@ -8,7 +8,9 @@ export const metadata: Metadata = {
 };
 
 export default async function Dash() {
-  const contracts: ContractResponse = await getData("/contracts");
+  const contracts: ContractResponse = await getData("/contracts", {
+    cache: "no-cache"
+  });
 
   return (
     <main className="h-full flex flex-col items-start">
@@ -17,15 +19,15 @@ export default async function Dash() {
         <div className="grid grid-cols-3 gap-5 w-full">
           <GenericArticle className="w-full">
             <div className="flex flex-col items-center gap-y-2">
-              <span className="text-xl font-semibold">Total de contratosds</span>
+              <span className="text-xl font-semibold">Total de contratos</span>
               <span className="text-2xl font-bold">{contracts.total}</span>
             </div>
           </GenericArticle>
           <GenericArticle className="w-full">
             <div className="flex flex-col items-center justify-center gap-y-2 w-full h-full">
               <span className="text-xl font-bold">Último contrato</span>
-              <span className="truncate w-[200px]">{contracts.data[0].id}</span>
-              <Link href={`/admin/contratos/${contracts.data[0].id}`} className="hover:opacity-80">Visualizar</Link>
+              <span className="truncate w-[200px]">{contracts.data[contracts.data.length - 1].id}</span>
+              <Link href={`/admin/contratos/${contracts.data[contracts.data.length - 1].id}`} className="hover:opacity-80">Visualizar</Link>
             </div>
           </GenericArticle>
         </div>

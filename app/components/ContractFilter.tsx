@@ -5,7 +5,11 @@ import Link from "next/link";
 import React, { Fragment, useState } from "react";
 import { FaChevronDown } from "react-icons/fa";
 
-const ContractFilter = () => {
+interface ContractFilterProps {
+  isAdmin?: boolean;
+}
+
+const ContractFilter = ({ isAdmin = false }: ContractFilterProps) => {
 
   type TOptions = "contract" | "payments" | "client";
   const [tab, setTab] = useState<TOptions>("contract");
@@ -15,6 +19,7 @@ const ContractFilter = () => {
     near_expiration?: string;
     sign_status?: "signed" | "unsigned" | "";
   }
+
   const [details, setDetails] = useState<TDetails>({});
 
   const formatQueryParams = (details: TDetails): string => {
@@ -24,16 +29,16 @@ const ContractFilter = () => {
       queryParams.push(`duration=${details.duration}`);
     }
 
+    if (details.sign_status) {
+      queryParams.push(`sign_status=${details.sign_status}`);
+    }
+
     if (details.client_name) {
       queryParams.push(`client_name=${details.client_name}`);
     }
 
     if (details.near_expiration) {
       queryParams.push(`near_expiration=${details.near_expiration}`);
-    }
-
-    if (details.sign_status) {
-      queryParams.push(`sign_status=${details.sign_status}`);
     }
 
     return queryParams.length > 0 ? `?${queryParams.join("&")}` : "";
@@ -46,7 +51,7 @@ const ContractFilter = () => {
           <Popover.Button
             className={`
                 ${open ? "text-white" : "text-white/90"}
-                group inline-flex items-center gap-x-2 rounded-md bg-black/50 px-3 py-2 text-base font-medium hover:text-white focus:outline-none hover:bg-black/40`}
+                group inline-flex items-center gap-x-2 rounded-md bg-black/80 px-3 py-2 text-base font-medium hover:text-white focus:outline-none hover:bg-black/50`}
           >
             <span>Filtros</span>
             <FaChevronDown
@@ -66,7 +71,7 @@ const ContractFilter = () => {
             leaveFrom="opacity-100 translate-y-0"
             leaveTo="opacity-0 translate-y-1"
           >
-            <Popover.Panel className="absolute right-0 mt-3 !z-[200] transform bg-black/80 backdrop-blur-md font-medium rounded-xl flex flex-col items-center gap-y-3 w-[350px]">
+            <Popover.Panel className="absolute right-0 mt-3 !z-[200] transform bg-black/80 backdrop-blur-md backdrop-brightness-90 font-medium rounded-xl flex flex-col items-center gap-y-3 w-[350px]">
               <nav className="w-full flex items-center justify-between space-x-2 rounded-xl  p-1 font-medium text-sm">
                 <button
                   className={`${tab === "contract" ? "bg-white text-neutral-600 font-bold pointer-events-none" : "hover:bg-white/30 ease-out duration-100"} w-full p-2 rounded-lg`}
@@ -80,12 +85,14 @@ const ContractFilter = () => {
                 >
                   Pagamentos
                 </button> */}
-                <button
-                  className={`${tab === "client" ? "bg-white text-neutral-600 font-bold pointer-events-none" : "hover:bg-white/30 ease-out duration-100"} w-full p-2 rounded-lg`}
-                  onClick={() => setTab("client")}
-                >
-                  Cliente
-                </button>
+                {isAdmin &&
+                  <button
+                    className={`${tab === "client" ? "bg-white text-neutral-600 font-bold pointer-events-none" : "hover:bg-white/30 ease-out duration-100"} w-full p-2 rounded-lg`}
+                    onClick={() => setTab("client")}
+                  >
+                    Cliente
+                  </button>
+                }
               </nav>
 
               <div className="w-full flex flex-col items-center p-4">
@@ -97,7 +104,7 @@ const ContractFilter = () => {
                         <input
                           id="duracao"
                           type="number"
-                          className="outline-none focus:outline-none text-neutral-500 appearance-none p-1 rounded-md"
+                          className="outline-none focus:outline-none text-neutral-500 appearance-none py-1 px-2 rounded-md"
                           value={details?.duration || ""}
                           onChange={(e) => setDetails({ ...details, duration: e.target.value })}
                         />
@@ -163,7 +170,7 @@ const ContractFilter = () => {
                       <input
                         id="nome"
                         type="text"
-                        className="outline-none focus:outline-none text-neutral-500 appearance-none p-1 rounded-md"
+                        className="outline-none focus:outline-none text-neutral-500 appearance-none py-1 px-2 rounded-md"
                         value={details?.client_name || ""}
                         onChange={(e) => setDetails({ ...details, client_name: e.target.value })}
                       />
@@ -173,17 +180,17 @@ const ContractFilter = () => {
 
                 <div className="flex items-center justify-between gap-x-5 w-full mt-10">
                   <Link
-                    href={`/admin/contratos${formatQueryParams(details)}`}
-                    className={`border p-2 text-sm rounded-md font-semibold bg-white text-neutral-800 hover:bg-white/90 ease-out duration-200 ${Object.keys(details).length == 0 && "pointer-events-none opacity-70"}`}
-                  >
-                    Filtrar
-                  </Link>
-                  <Link
-                    href={"/admin/contratos"}
+                    href={isAdmin ? "/admin/contratos" : "/contratos"}
                     onClick={() => setDetails({})}
-                    className={`border p-2 text-sm rounded-md font-semibold hover:bg-black/50 ${Object.keys(details).length == 0 && "pointer-events-none opacity-70"}`}
+                    className={"border py-2 px-4 text-sm rounded-md font-semibold hover:bg-black/50"}
                   >
                     Limpar
+                  </Link>
+                  <Link
+                    href={isAdmin ? `/admin/contratos${formatQueryParams(details)}` : `/contratos${formatQueryParams(details)}`}
+                    className={`border py-2 px-4 text-sm rounded-md font-semibold bg-white text-neutral-800 hover:bg-white/90 ease-out duration-200 ${Object.keys(details).length == 0 && "pointer-events-none opacity-70"}`}
+                  >
+                    Filtrar
                   </Link>
                 </div>
               </div>

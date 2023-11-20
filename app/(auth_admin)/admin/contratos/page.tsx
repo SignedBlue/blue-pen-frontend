@@ -8,7 +8,10 @@ export const metadata: Metadata = {
 
 export default async function ContratosPage() {
   const contracts: ContractResponse = await getData("/contracts", {
-    cache: "no-cache"
+    cache: "no-cache",
+    next: {
+      tags: ["contracts"]
+    }
   });
 
   return <ContractList isAdmin newContract contracts={contracts} />;

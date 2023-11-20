@@ -34,10 +34,18 @@ const formatDate = (date: Date): string => {
   return formattedDate;
 };
 
+const calculateExpirationDate = (dataInicio: string, duracaoMeses: number): Date => {
+  const startDate = new Date(dataInicio);
+  const expirationDate = new Date(startDate);
+  expirationDate.setMonth(expirationDate.getMonth() + duracaoMeses);
+  return expirationDate;
+};
+
 export {
   formatPhoneNumber,
   formatPostalCode,
   formatCPF,
   cleanMask,
-  formatDate
+  formatDate,
+  calculateExpirationDate
 };

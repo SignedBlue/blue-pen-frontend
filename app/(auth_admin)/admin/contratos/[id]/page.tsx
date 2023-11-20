@@ -3,8 +3,8 @@ import { Metadata } from "next";
 import SingleContractSection from "@/app/components/SingleContractSection";
 import { getData } from "@/utils/getData";
 
-export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
-  const contract: TContract = await getData(`/contracts/${params.id}`);
+export async function generateMetadata({ params: { id: contractId } }: { params: { id: string } }): Promise<Metadata> {
+  const contract: TContract = await getData(`/contracts/${contractId}`);
 
   return {
     title: !!contract && `Contrato de ${contract.client.name.split(" ")[0]}`
@@ -12,9 +12,23 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
 }
 
 export default async function SingleContract({ params: { id: contractId } }: { params: { id: string } }) {
-  const contractPromise = getData(`/contracts/${contractId}`, { cache: "no-cache" }) as Promise<TContract>;
+  const contractPromise = getData(`/contracts/${contractId}`,
+    {
+      cache: "no-cache",
+      next: {
+        tags: ["single_contract"]
+      }
+    },
+  ) as Promise<TContract>;
 
-  const paymentsPromise = getData(`/payments?contract_id=${contractId}`, { cache: "no-cache" }) as Promise<IPaymentResponse>;
+  const paymentsPromise = getData(`/payments?contract_id=${contractId}`,
+    {
+      cache: "no-cache",
+      next: {
+        tags: ["payments"]
+      }
+    },
+  ) as Promise<IPaymentResponse>;
 
   const contractUsersPromise = getData(`/contract-users?contract_id=${contractId}`, { cache: "no-cache" }) as Promise<IUserContract>;
 
@@ -24,10 +38,9 @@ export default async function SingleContract({ params: { id: contractId } }: { p
     contractUsersPromise,
   ]);
 
-
   if (!contract) {
     return notFound();
   }
 
-  return <SingleContractSection contract={contract} payments={payments.data} contractUsers={contract_users.data} />;
+  return <SingleContractSection isAdmin contract={contract} payments={payments.data} contractUsers={contract_users.data} />;
 }

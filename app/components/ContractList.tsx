@@ -90,7 +90,7 @@ const ContractList = ({ contracts, isAdmin = false, routerBack = false, newContr
             Novo Contrato
           </Link>
         }
-        <ContractFilter />
+        <ContractFilter isAdmin={isAdmin} />
         <div className="flex items-center">
           <button
             onClick={() => setDisplay("grid")}

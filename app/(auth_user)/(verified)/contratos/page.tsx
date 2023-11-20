@@ -19,5 +19,4 @@ export default async function UserContractsPage() {
   const contracts: ContractResponse = await res.json();
 
   return <ContractList contracts={contracts} />;
-
 }

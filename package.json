@@ -19,6 +19,7 @@
     "react-hot-toast": "^2.4.1",
     "react-icons": "^4.11.0",
     "react-loading": "^2.0.3",
+    "react-qr-code": "^2.0.12",
     "tailwind-merge": "^2.0.0",
     "zod": "^3.22.4"
   },

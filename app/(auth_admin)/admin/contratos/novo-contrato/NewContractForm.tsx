@@ -225,11 +225,13 @@ const NewContractForm = ({ users }: NewContractFormProps) => {
             <option value="" disabled selected>
               Selecione um cliente
             </option>
-            {users?.data.filter((user) => user.user_type === null || user.user_type === "client" && user.verified).map((user) => (
-              <option key={user.id} value={user.id} className="outline-none">
-                {user.name}
-              </option>
-            ))}
+            {users?.data
+              .filter((user) => (user.user_type === null || user.user_type === "client") && user.verified)
+              .map((user) => (
+                <option key={user.id} value={user.id} className="outline-none">
+                  {user.name}
+                </option>
+              ))}
           </select>
         </div>
         <div className="flex items-center w-full">

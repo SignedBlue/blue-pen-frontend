@@ -1,15 +1,34 @@
 // Para dividir o conteudo do modal em partes/páginas, basta adioconar a tag --break-- e o conteúdo será separado.
 
 // CONTRATOS 
+// <li>Nome do Cliente: Encontre contratos associados a clientes específicos inserindo o nome do cliente desejado.</li>
 
 const help_contratos = `
   Nesta página, os contratos são exibidos em formato de grid ou colunas para facilitar a visualização. Cada card representa um contrato e inclui as seguintes informações:
 
   --break--
+  <h2 class="subtitle">Informações Gerais</h2>
   <ul class="list-disc pl-6">
-    <li class="ml-">ID do Contrato: Identificação única para cada contrato.</li>
-    <li class="ml-">Status de Assinatura: Indica se o contrato está "Em Andamento", "Concluído" ou "Pendente".</li>
-    <li class="ml-">Data: Mostra a data de vencimento do contrato.</li>
+    <li>Nome do Contrato: Identificação com o nome do cliente do contrato.</li>
+    <li>Status de Assinatura: Indica se o contrato está "Em Andamento", "Concluído" ou "Pendente".</li>
+    <li>Data: Mostra a data de vencimento do contrato.</li>
+  </ul>
+
+  --break--
+  <h2 class="subtitle">Filtros</h2>
+  <ul class="list-disc pl-6">
+    <li>Duração: Refina a busca por contratos com uma determinada duração.</li>
+    <li>Próximo do Vencimento: Visualize contratos que estão próximos do vencimento para uma gestão mais eficaz.</li>
+    <li>Status de Assinatura: Filtra os contratos por status de assinatura, podendo ser "Assinado", "Não Assinado" ou todos.</li>
+  </ul>
+
+  --break--
+  <h2 class="subtitle">Novo contrato</h2>
+  <ul class="list-decimal pl-6">
+      <li class="ml-">Acesse a opção <b>"Novo contrato"</b> na página correspondente.</li>
+      <li class="ml-">Preencha os detalhes do contrato, incluindo duração, clientes envolvidos e data de vencimento.</li>
+      <li class="ml-">Revise todas as informações inseridas.</li>
+      <li class="ml-">Confirme a criação do contrato.</li>
   </ul>
 `;
 

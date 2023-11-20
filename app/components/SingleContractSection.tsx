@@ -10,21 +10,24 @@ import Modal from "./Modal";
 import { VerifyDocumentStatus } from "@/utils/VerifyDocumentStatus";
 import { VerifyPaymentStatus } from "@/utils/VerifyPaymentStatus";
 
-import { FaRegFile } from "react-icons/fa";
+import { FaRegFile, FaTrashAlt } from "react-icons/fa";
 import { formatDate, formatPostalCode } from "@/utils/formatters";
+import { DeletePayment } from "../actions/_payments";
 
 interface SingleContractSectionProps {
   contract: TContract;
-  isAdmin?: boolean;
   payments: TPayment[];
   contractUsers: TUserContract[];
+  isAdmin?: boolean;
 }
 
-const SingleContractSection = ({ contract, payments, contractUsers }: SingleContractSectionProps) => {
+const SingleContractSection = ({ contract, payments, contractUsers, isAdmin = false }: SingleContractSectionProps) => {
 
   const expirationDate = new Date(new Date(contract.start_date).setMonth(new Date(contract.start_date).getMonth() + Number(contract.duration)));
 
-  const isSigned = contractUsers.some(cont => cont.signed_date !== null);
+  const isSigned = contractUsers.some(cont => cont.signed === true);
+
+  // const adminData = contractUsers.find(user => user.user_type === "admin");
 
   type TabOptions = "details" | "payments"
   const [tab, setTab] = useState<TabOptions>("details");
@@ -57,7 +60,7 @@ const SingleContractSection = ({ contract, payments, contractUsers }: SingleCont
               <span>{formatDate(new Date(contract.sign_date))}</span>
             </div>
           }
-          <div className="flex items-center gap-x-2">
+          <div className="flex items-center gap-x-2 mb-4">
             <span>Assinado:</span>
             <span className={`${contract.sign_date ? "text-green-500" : "text-red-500"} uppercase font-medium`}>{contract.sign_date ? "Assinado" : "Não assinado"}</span>
           </div>
@@ -66,36 +69,38 @@ const SingleContractSection = ({ contract, payments, contractUsers }: SingleCont
         </div>
 
         <div className="flex flex-col items-start w-[50%]">
-          <span className="text-xl font-bold mb-2">Informações do cliente:</span>
-          <div className="flex items-center gap-x-2">
-            <span>Nome:</span>
-            <span>{contract.client.name}</span>
-          </div>
-          <div className="flex items-center gap-x-2">
-            <span>Email:</span>
-            <span>{contract.client.email}</span>
-          </div>
-          <div className="flex items-center gap-x-2">
-            <span>Status dos documentos:</span>
-            <span className={`${contract.client.document_status === "APPROVED" ? "text-green-500" : contract.client.document_status === "REJECTED" ? "text-red-500" : "text-yellow-400"} font-medium uppercase`}>
-              {VerifyDocumentStatus(contract.client.document_status)}
-            </span>
-          </div>
-          <div className="flex items-start gap-x-2 mt-2">
-            {contract.client.address &&
-              <div className="flex flex-col items-start">
-                <div className="flex items-center gap-x-2">
-                  <span>Rua:</span>
-                  <span>{contract.client.address?.street},</span>
-                  <span>{contract.client.address?.number}</span>
+          <div className="flex flex-col items-start gap-y-1">
+            <span className="text-xl font-bold mb-1">Dados do cliente:</span>
+            <div className="flex items-center gap-x-2">
+              <span>Nome:</span>
+              <span>{contract.client.name}</span>
+            </div>
+            <div className="flex items-center gap-x-2">
+              <span>Email:</span>
+              <span>{contract.client.email}</span>
+            </div>
+            <div className="flex items-center gap-x-2">
+              <span>Status dos documentos:</span>
+              <span className={`${contract.client.document_status === "APPROVED" ? "text-green-500" : contract.client.document_status === "REJECTED" ? "text-red-500" : "text-yellow-400"} font-medium uppercase`}>
+                {VerifyDocumentStatus(contract.client.document_status)}
+              </span>
+            </div>
+            <div className="flex items-start gap-x-2 mt-2">
+              {contract.client.address &&
+                <div className="flex flex-col items-start">
+                  <div className="flex items-center gap-x-2">
+                    <span>Rua:</span>
+                    <span>{contract.client.address?.street},</span>
+                    <span>{contract.client.address?.number}</span>
+                  </div>
+                  <div className="flex items-center gap-x-2">
+                    <span>Cidade:</span>
+                    <span>{contract.client.address?.city},</span>
+                    <span>{formatPostalCode(contract.client.address?.postal_code)}</span>
+                  </div>
                 </div>
-                <div className="flex items-center gap-x-2">
-                  <span>Cidade:</span>
-                  <span>{contract.client.address?.city},</span>
-                  <span>{formatPostalCode(contract.client.address?.postal_code)}</span>
-                </div>
-              </div>
-            }
+              }
+            </div>
           </div>
         </div>
       </section>
@@ -195,10 +200,31 @@ const SingleContractSection = ({ contract, payments, contractUsers }: SingleCont
                       <span className={`${pay.status === "PAID" ? "bg-green-400/60" : pay.status === "OVERDUE" ? "bg-red-500/60" : pay.status === "PENDING" ? "bg-yellow-500/50" : "bg-neutral-400/60"} px-6 py-2 rounded-lg font-bold`}>{VerifyPaymentStatus(pay.status)}</span>
                     </td>
                     <td className="border-b px-4 text-sm">
-                      <a target="_blank" rel="noreferrer" href={pay.bank_slip} className="text-lg hover:text-blue_button ease-out duration-200 w-[20px]">
-                        <FaRegFile />
-                      </a>
+                      <div className="flex items-center gap-x-3">
+                        <a
+                          target="_blank"
+                          rel="noreferrer"
+                          href={pay.bank_slip}
+                          className="text-lg text-neutral-400 hover:text-white"
+                        >
+                          <FaRegFile />
+                        </a>
+                        {isAdmin && pay.status !== "PAID" && (
+                          <button
+                            onClick={() => {
+                              DeletePayment(pay.id);
+                              if (payments.length === 1) {
+                                setTab("details");
+                              }
+                            }}
+                            className="text-lg text-neutral-400 hover:text-red-500"
+                          >
+                            <FaTrashAlt />
+                          </button>
+                        )}
+                      </div>
                     </td>
+
                     <td className="border-b px-4 text-sm text-end">RS {pay.value},00</td>
                   </tr>
                 ))}

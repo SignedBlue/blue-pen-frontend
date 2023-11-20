@@ -51,6 +51,7 @@ export async function Login(data: LoginInputs) {
       body: JSON.stringify(user)
     });
 
+
     if ("token" in authRes) {
       const time_to_live = data.connected ? 60 * 60 : 10;
 

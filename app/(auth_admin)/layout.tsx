@@ -9,10 +9,15 @@ const PathView = dynamic(() => import("../components/PathView"));
 import { AuthContextProvider } from "@/providers/AuthProvider";
 import { CookiesValues } from "@/constants/Cookies";
 import UserAccount from "../components/UserAccount";
+import { redirect } from "next/navigation";
 
 export default async function AuthLayout({ children }: { children: React.ReactNode }) {
   const cookie = cookies();
   const userName = cookie.get("name")?.value;
+
+  if (cookie.get(CookiesValues.name)?.value !== CookiesValues.admin) {
+    redirect("/home?error=not_admin");
+  }
 
   // original color bg-neutral-400 // 22262f
   return (
