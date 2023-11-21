@@ -65,6 +65,11 @@ const ContractList = ({ contracts, isAdmin = false, routerBack = false, newContr
     rules.push(item => item.sign_date == null);
   }
 
+  const termination_date_params = useSearchParams().get("expired") || "";
+  if (termination_date_params === "true") {
+    rules.push(item => item.termination_date !== null);
+  }
+
   const filteredContracts = contracts?.data.filter((item) => {
     return rules.every((rule) => rule(item));
   });

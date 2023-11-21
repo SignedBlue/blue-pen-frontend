@@ -31,6 +31,7 @@ export async function SendAsaasData(data: InputAsaas) {
 
     const res = await fetch(`${backendUrl}/users/account`, {
       method: "POST",
+      cache: "no-cache",
       headers: {
         "Authorization": `Bearer ${tokenValue}`,
         "Content-Type": "application/json"

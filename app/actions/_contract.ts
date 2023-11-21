@@ -75,8 +75,10 @@ export async function SignContract({ token, contract_id }: { token: string; cont
   return res;
 }
 
-export async function CancelContract({ user_id }: { user_id: string }) {
-  await getData("/contracts/sign", {
+export async function CancelContract() {
+  const user_id = cookies().get("user_id")?.value;
+
+  const res = await getData("/contracts/sign", {
     method: "PATCH",
     cache: "no-cache",
     body: JSON.stringify({
@@ -84,4 +86,6 @@ export async function CancelContract({ user_id }: { user_id: string }) {
       termination_by: user_id
     })
   });
+
+  return res;
 }

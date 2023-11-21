@@ -110,6 +110,9 @@ const NewContractForm = ({ users }: NewContractFormProps) => {
     }
   };
 
+  const [client, setClient] = useState<string>("");
+  const clientName = users?.data.find(clientt => clientt.id === client)?.name;
+
   const onSubmit: SubmitHandler<TInputs> = async (data) => {
     const newContract: INewContract = {
       client_id: data.client_id,
@@ -221,7 +224,7 @@ const NewContractForm = ({ users }: NewContractFormProps) => {
           <label htmlFor="client_id" className="mr-2 min-w-[200px]">
             Cliente relacionado:
           </label>
-          <select {...register("client_id")} className="rounded-md p-1 text-black w-full h-[40px] outline-none">
+          <select {...register("client_id")} onChange={(e) => setClient(e.target.value)} className="rounded-md p-1 text-black w-full h-[40px] outline-none">
             <option value="" disabled selected>
               Selecione um cliente
             </option>
@@ -248,7 +251,7 @@ const NewContractForm = ({ users }: NewContractFormProps) => {
         </div>
         {errors.start_date?.message}
         <input
-          type="text"
+          type="number"
           {...register("duration")}
           placeholder="Duração (meses)"
           className={`rounded-md p-2 w-full text-black outline-none ${errors.duration && "border-red-500"}`}
@@ -270,7 +273,7 @@ const NewContractForm = ({ users }: NewContractFormProps) => {
 
       <div className="flex flex-col items-center bg-white rounded-md w-[50%] h-[400px] p-5 gap-y-5 overflow-y-scroll">
         <div className="flex flex-col items-start w-full">
-          <span className="text-2xl font-bold text-black mb-2">Itens da proposta</span>
+          <span className="text-xl font-bold text-black mb-2">Itens da proposta</span>
           <div className="flex flex-col items-start gap-y-1">
             {propostaItens.map(item =>
               <span className="text-neutral-500 font-medium" key={item}>• {item}</span>
@@ -296,6 +299,12 @@ const NewContractForm = ({ users }: NewContractFormProps) => {
           </div>
         </div>
 
+        {client !== "" &&
+          <p className="text-lg text-black w-full text-left">
+            <b> Nome do cliente:</b> {clientName}
+          </p>
+        }
+
         <div className="flex flex-col items-start w-full">
           <span className="text-xl font-bold text-black mb-4">Valores:</span>
           <table className="border-collapse border w-full rounded-md">
@@ -309,12 +318,12 @@ const NewContractForm = ({ users }: NewContractFormProps) => {
               {valoresImplantacao.map((item) => (
                 <tr key={item.valor}>
                   <td className="border px-4 py-2 text-neutral-500">{item.servico}</td>
-                  <td className="border px-4 py-2 text-neutral-500 text-end">R$ {item.valor}</td>
+                  <td className="border px-4 py-2 text-neutral-500 text-end">R$ {item.valor},00</td>
                 </tr>
               ))}
               <tr>
                 <td className="border px-4 py-2 text-black font-bold">Total</td>
-                <td className="border px-4 py-2 text-black font-bold text-end">R$ {totalSum}</td>
+                <td className="border px-4 py-2 text-black font-bold text-end">R$ {totalSum},00</td>
               </tr>
             </tbody>
           </table>

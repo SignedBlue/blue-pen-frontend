@@ -7,7 +7,7 @@ const LoadingSkeleton = () => {
     <>
       <nav className="w-full flex items-center justify-between rounded-md  mb-10 px-5 animate-pulse">
         <div className="flex items-center gap-x-4">
-          <span className="h-[40px] min-w-[200px] flex items-center justify-start rounded-md text-2xl  font-bold text-neutral-50 tracking-wider blur-[4px]">
+          <span className="h-[40px] min-w-[200px] flex items-center justify-start rounded-md text-2xl lg:text-4xl font-bold text-neutral-50 tracking-widest blur-[4px]">
             Carregando ..
           </span>
         </div>

@@ -18,6 +18,7 @@ const ContractFilter = ({ isAdmin = false }: ContractFilterProps) => {
     client_name?: string;
     near_expiration?: string;
     sign_status?: "signed" | "unsigned" | "";
+    termination_date?: null | "true";
   }
 
   const [details, setDetails] = useState<TDetails>({});
@@ -39,6 +40,10 @@ const ContractFilter = ({ isAdmin = false }: ContractFilterProps) => {
 
     if (details.near_expiration) {
       queryParams.push(`near_expiration=${details.near_expiration}`);
+    }
+
+    if (details.termination_date) {
+      queryParams.push(`expired=${details.termination_date}`);
     }
 
     return queryParams.length > 0 ? `?${queryParams.join("&")}` : "";
@@ -72,7 +77,7 @@ const ContractFilter = ({ isAdmin = false }: ContractFilterProps) => {
             leaveTo="opacity-0 translate-y-1"
           >
             <Popover.Panel className="absolute right-0 mt-3 !z-[200] transform bg-black/80 backdrop-blur-md backdrop-brightness-90 font-medium rounded-xl flex flex-col items-center gap-y-3 w-[350px]">
-              <nav className="w-full flex items-center justify-between space-x-2 rounded-xl  p-1 font-medium text-sm">
+              <nav className="w-full flex items-center justify-between space-x-2 rounded-xl p-1 font-medium text-sm">
                 <button
                   className={`${tab === "contract" ? "bg-white text-neutral-600 font-bold pointer-events-none" : "hover:bg-white/30 ease-out duration-100"} w-full p-2 rounded-lg`}
                   onClick={() => setTab("contract")}
@@ -98,9 +103,9 @@ const ContractFilter = ({ isAdmin = false }: ContractFilterProps) => {
               <div className="w-full flex flex-col items-center p-4">
                 {tab === "contract" &&
                   (
-                    <div className="w-full flex flex-col items-start gap-3 text-sm min-h-[100px]">
+                    <div className="w-full flex flex-col items-start gap-3 text-sm">
                       <div className="flex flex-col items-start gap-2">
-                        <label htmlFor="duracao">Duração até (meses):</label>
+                        <label className="font-bold tracking-wide mb-1" htmlFor="duracao">Duração até (meses):</label>
                         <input
                           id="duracao"
                           type="number"
@@ -121,8 +126,8 @@ const ContractFilter = ({ isAdmin = false }: ContractFilterProps) => {
                       </div> */}
 
                       <div className="flex flex-col items-start gap-2">
-                        <span>Status de assinatura:</span>
-                        <div className="flex items-center justify-center gap-x-2">
+                        <span className="font-bold tracking-wide mb-1">Status de assinatura:</span>
+                        <div className="flex items-center justify-center gap-x-2 ml-2">
                           <input
                             type="radio"
                             name="sign_status"
@@ -133,7 +138,7 @@ const ContractFilter = ({ isAdmin = false }: ContractFilterProps) => {
                           <label htmlFor="all">Todos</label>
                         </div>
 
-                        <div className="flex items-center justify-center gap-x-2">
+                        <div className="flex items-center justify-center gap-x-2 ml-2">
                           <input
                             type="radio"
                             name="sign_status"
@@ -144,7 +149,7 @@ const ContractFilter = ({ isAdmin = false }: ContractFilterProps) => {
                           <label htmlFor="signed">Assinado</label>
                         </div>
 
-                        <div className="flex items-center justify-center gap-x-2">
+                        <div className="flex items-center justify-center gap-x-2 ml-2">
                           <input
                             type="radio"
                             name="sign_status"
@@ -153,6 +158,19 @@ const ContractFilter = ({ isAdmin = false }: ContractFilterProps) => {
                             onChange={() => setDetails({ ...details, sign_status: "unsigned" })}
                           />
                           <label htmlFor="unsigned">Não assinado</label>
+                        </div>
+                      </div>
+
+                      <div className="flex flex-col items-start gap-2">
+                        <span className="font-bold tracking-wide mb-1">Status do contrato:</span>
+                        <div className="flex items-center justify-center gap-x-2 ml-2">
+                          <input
+                            type="checkbox"
+                            id="termination_date"
+                            checked={details.termination_date === "true"}
+                            onChange={(e) => setDetails({ ...details, termination_date: e.target.checked ? "true" : null })}
+                          />
+                          <label htmlFor="termination_date">Vencido</label>
                         </div>
                       </div>
                     </div>
@@ -166,7 +184,7 @@ const ContractFilter = ({ isAdmin = false }: ContractFilterProps) => {
                 {tab === "client" && (
                   <div className="w-full flex flex-col items-start gap-3 text-sm min-h-[100px]">
                     <div className="flex flex-col items-start gap-2">
-                      <label htmlFor="nome">Nome do cliente:</label>
+                      <label className="font-bold tracking-wide mb-1" htmlFor="nome">Nome do cliente:</label>
                       <input
                         id="nome"
                         type="text"
@@ -178,7 +196,7 @@ const ContractFilter = ({ isAdmin = false }: ContractFilterProps) => {
                   </div>
                 )}
 
-                <div className="flex items-center justify-between gap-x-5 w-full mt-10">
+                <div className="flex items-center justify-between gap-x-5 w-full mt-6">
                   <Link
                     href={isAdmin ? "/admin/contratos" : "/contratos"}
                     onClick={() => setDetails({})}
@@ -188,7 +206,7 @@ const ContractFilter = ({ isAdmin = false }: ContractFilterProps) => {
                   </Link>
                   <Link
                     href={isAdmin ? `/admin/contratos${formatQueryParams(details)}` : `/contratos${formatQueryParams(details)}`}
-                    className={`border py-2 px-4 text-sm rounded-md font-semibold bg-white text-neutral-800 hover:bg-white/90 ease-out duration-200 ${Object.keys(details).length == 0 && "pointer-events-none opacity-70"}`}
+                    className={`border py-2 px-4 text-sm rounded-md font-semibold bg-white text-neutral-800 hover:bg-white/90 ease-out duration-200 ${(Object.keys(details).length === 0) && "pointer-events-none opacity-70"}`}
                   >
                     Filtrar
                   </Link>

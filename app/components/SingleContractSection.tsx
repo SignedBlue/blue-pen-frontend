@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState } from "react";
-import Link from "next/link";
 
 import RequestTokenButton from "./RequestTokenButton";
 import Navbar from "./Navbar";
@@ -13,6 +12,7 @@ import { VerifyPaymentStatus } from "@/utils/VerifyPaymentStatus";
 import { FaRegFile, FaTrashAlt } from "react-icons/fa";
 import { formatDate, formatPostalCode } from "@/utils/formatters";
 import { DeletePayment } from "../actions/_payments";
+import CancelContractButton from "./CancelContractButton";
 
 interface SingleContractSectionProps {
   contract: TContract;
@@ -36,7 +36,9 @@ const SingleContractSection = ({ contract, payments, contractUsers, isAdmin = fa
     <div className="flex flex-col gap-y-10">
       <Navbar title={`Contrato de ${contract.client?.name.split(" ")[0]}`} routerBack>
         <Modal title="Contrato" content="Contrato" />
-        {isSigned && <Link target="_blank" href={`${contract?.url}`} className="border h-[30px] flex items-center justify-center px-3 rounded-md hover:bg-white hover:text-neutral-900 ease-out duration-200 font-medium">Visualizar Contrato</Link>}
+        {isSigned &&
+          <a target="_blank" href={`${contract?.url}`} className="border h-[30px] flex items-center justify-center px-3 rounded-md hover:bg-white hover:text-neutral-900 ease-out duration-200 font-medium">Visualizar Contrato</a>
+        }
       </Navbar>
 
       <section className="flex justify-between items-stretch gap-10 border-2 p-10 rounded-md h-full">
@@ -54,18 +56,27 @@ const SingleContractSection = ({ contract, payments, contractUsers, isAdmin = fa
             <span>Expiração:</span>
             <span>{formatDate(expirationDate)}</span>
           </div>
+
           {contract.sign_date &&
             <div className="flex items-center gap-x-2">
               <span>Data de assinatura:</span>
               <span>{formatDate(new Date(contract.sign_date))}</span>
             </div>
           }
+
           <div className="flex items-center gap-x-2 mb-4">
-            <span>Assinado:</span>
-            <span className={`${contract.sign_date ? "text-green-500" : "text-red-500"} uppercase font-medium`}>{contract.sign_date ? "Assinado" : "Não assinado"}</span>
+            <span>Status do contrato:</span>
+            <span className={`${(contract.sign_date && contract.termination_date === null) ? "text-green-500" : "text-red-500"} uppercase font-semibold`}>{contract.sign_date ? "Assinado" : "Não assinado"}</span>
+            <span className={`${contract.termination_date !== null && "text-red-500"} uppercase font-semibold`}>{contract.termination_date !== null && "RESCINDIDO"}</span>
           </div>
 
-          {!contract.sign_date && <RequestTokenButton contract_id={contract.id} document_status={contract.client.document_status} />}
+          {!contract.sign_date &&
+            <RequestTokenButton contract_id={contract.id} document_status={contract.client.document_status} />
+          }
+
+          {(contract.sign_date && contract.termination_date === null) &&
+            <CancelContractButton />
+          }
         </div>
 
         <div className="flex flex-col items-start w-[50%]">
