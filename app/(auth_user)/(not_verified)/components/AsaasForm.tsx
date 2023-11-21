@@ -4,7 +4,9 @@ import InputForm from "@/app/(public)/components/InputForm";
 import { SendAsaasData } from "@/app/actions/_asaas";
 import { AsaasSchema } from "@/schemas/Asaas";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
 import { useForm, SubmitHandler } from "react-hook-form";
+import toast from "react-hot-toast";
 import ReactInputMask from "react-input-mask";
 import ReactLoading from "react-loading";
 import { z } from "zod";
@@ -23,9 +25,24 @@ const AsaasForm = () => {
     resolver: zodResolver(AsaasSchema)
   });
 
+  const { push } = useRouter();
+
   const onSubmitt: SubmitHandler<Inputs> = async (data) => {
-    await SendAsaasData(data);
+    const res = await SendAsaasData(data);
+
+    if (res?.statusCode === 401) {
+      toast.error("Dados inválidos, contate o suporte",
+        { style: { padding: "12px" } });
+    } else if (res?.statusCode === 400) {
+      toast.error("Ocorreu um erro ao processar a requisição",
+        { style: { padding: "12px" } });
+    } else {
+      toast.success("Informações enviadas com sucesso. Prosseguindo para a Etapa 2.",
+        { style: { padding: "12px" } });
+      push("/verificacao/etapa-2");
+    }
   };
+
 
   return (
     <form onSubmit={handleSubmit(onSubmitt)} className='flex flex-col items-center gap-y-3 w-[90%]'>

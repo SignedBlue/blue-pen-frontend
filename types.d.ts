@@ -1,6 +1,5 @@
 /** @type erros possiveis para criação de novos usuarios*/
 type TCreatedUser = {
-  state: "Error";
   statusCode: 409;
   payload: {
     statusCode: number;

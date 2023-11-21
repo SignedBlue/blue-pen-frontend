@@ -27,9 +27,9 @@ export async function CreateUser(data: CreateUserInputs) {
       body: JSON.stringify(user)
     });
 
-    if (createdUser.statusCode !== 409) {
-      redirect("/login");
-    }
+    // if (createdUser.statusCode !== 409) {
+    //   redirect("/login");
+    // }
 
     return createdUser;
   }
@@ -67,6 +67,10 @@ export async function Login(data: LoginInputs) {
       if (authRes.user.user_type === "client" || authRes.user.user_type === null) {
         if (authRes.user.gateway_id && !authRes.user.verified) {
           redirect("/verificacao/etapa-2");
+        }
+
+        if (!authRes.user.gateway_id) {
+          redirect("/verificacao");
         }
 
         redirect(authRes.user.verified ? "/home?verified=true" : "/verificacao");

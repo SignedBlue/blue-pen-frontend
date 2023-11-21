@@ -16,6 +16,7 @@ import toast from "react-hot-toast";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
+import { useRouter } from "next/navigation";
 
 type Inputs = z.infer<typeof UserSchemaRegister>
 
@@ -30,6 +31,8 @@ const RegisterForm = () => {
   } = useForm<Inputs>({
     resolver: zodResolver(UserSchemaRegister)
   });
+
+  const { push } = useRouter();
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     await CreateUser(data)
@@ -46,6 +49,7 @@ const RegisterForm = () => {
               padding: "12px",
             }
           });
+          push("/login");
         }
       })
       .catch(() => {

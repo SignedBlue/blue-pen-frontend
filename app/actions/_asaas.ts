@@ -5,13 +5,14 @@ import { cookies } from "next/headers";
 import { AsaasSchema } from "@/schemas/Asaas";
 import { z } from "zod";
 import { cleanMask } from "@/utils/formatters";
-import { getData } from "@/utils/getData";
+import { backendUrl } from "@/constants/Urls";
 
 type InputAsaas = z.infer<typeof AsaasSchema>
 
 export async function SendAsaasData(data: InputAsaas) {
 
   const user_id = cookies().get("user_id")?.value;
+  const tokenValue = cookies().get("jwt")?.value;
 
   if (AsaasSchema.safeParse(data).success) {
     const asaasReq: InputAsaas = {
@@ -27,14 +28,18 @@ export async function SendAsaasData(data: InputAsaas) {
       user_id: user_id,
     };
 
-    await getData("/users/account", {
+
+    const res = await fetch(`${backendUrl}/users/account`, {
       method: "POST",
-      cache: "no-cache",
+      headers: {
+        "Authorization": `Bearer ${tokenValue}`,
+        "Content-Type": "application/json"
+      },
       body: JSON.stringify(asaasReq)
     });
 
-    // cookies().set("asaas_sended", "true");
-    // redirect("/verificacao/etapa-2");
+    const resss = await res.json();
 
+    return resss;
   }
 }

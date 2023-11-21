@@ -1,3 +1,4 @@
+import LogoutButton from "@/app/components/LogoutButton";
 import dynamic from "next/dynamic";
 import Image from "next/image";
 
@@ -22,6 +23,7 @@ export default function NotVerifiedUserLayout({ children }: { children: React.Re
             </div>
           </div>
           <PathView />
+          <LogoutButton />
         </header>
         <div className="flex flex-col items-center justify-center gap-y-4 h-full w-full text-white">
           {children}
