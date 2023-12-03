@@ -42,6 +42,7 @@ const help_novo_contrato = `
     <ul class="list-disc pl-6">
       <li class="mb-1">Duração: Duração em meses do contrato.</li>
       <li class="mb-1">Data de Início: Data prevista para o início do contrato.</li>
+      <li class="mb-1">Cliente relacionado: Seleção do cliente associado ao contrato.</li>
     </ul>
 
     --break--
@@ -57,19 +58,6 @@ const help_novo_contrato = `
     <ul class="list-disc pl-6">
       <li class="mb-2">Formas de Atendimento: Lista das formas de atendimento previstas.</li>
       <li class="mb-2">Valores de Implantação: Lista dos valores de implantação associados a diferentes serviços.</li>
-    </ul>
-
-    --break--
-    <h2 class="subtitle">Opcional</h2>
-    <ul class="list-disc pl-6">
-      <li class="mb-1">ID do Cliente (opcional): Identificação única do cliente associado ao contrato.</li>
-    </ul>
-
-    --break--
-    <h2 class="subtitle">Datas</h2>
-    <ul class="list-disc pl-6">
-      <li class="mb-1">Data de Criação: Data de criação do contrato.</li>
-      <li class="mb-1">Data de Atualização: Data da última atualização do contrato.</li>
     </ul>
 `;
 

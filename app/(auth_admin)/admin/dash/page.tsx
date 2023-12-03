@@ -12,6 +12,8 @@ export default async function Dash() {
     cache: "no-cache"
   });
 
+  const signedContracts = contracts.data.filter(cont => cont.sign_date !== null).length;
+
   return (
     <main className="h-full flex flex-col items-start">
       <h1 className="_title mb-10">Home</h1>
@@ -28,6 +30,13 @@ export default async function Dash() {
               <span className="text-xl font-bold">Último contrato</span>
               <span className="truncate w-[200px]">{contracts.data[contracts.data.length - 1].id}</span>
               <Link href={`/admin/contratos/${contracts.data[contracts.data.length - 1].id}`} className="hover:opacity-80">Visualizar</Link>
+            </div>
+          </GenericArticle>
+          <GenericArticle className="w-full">
+            <div className="flex flex-col items-center justify-center gap-y-2 w-full h-full">
+              <span className="text-xl font-bold">Contratos assinados</span>
+              <span className="">{signedContracts}</span>
+              <Link href={"/admin/contratos?sign_status=signed"} className="hover:opacity-80">Visualizar</Link>
             </div>
           </GenericArticle>
         </div>

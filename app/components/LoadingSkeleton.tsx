@@ -1,6 +1,6 @@
 import React from "react";
 
-const LoadingSkeleton = () => {
+const LoadingSkeleton = ({ label = "Carregando" }: { label?: string }) => {
   const fakeArray = Array.from({ length: 8 }, () => null);
 
   return (
@@ -8,7 +8,7 @@ const LoadingSkeleton = () => {
       <nav className="w-full flex items-center justify-between rounded-md  mb-10 px-5 animate-pulse">
         <div className="flex items-center gap-x-4">
           <span className="h-[40px] min-w-[200px] flex items-center justify-start rounded-md text-2xl lg:text-4xl font-bold text-neutral-50 tracking-widest blur-[4px]">
-            Carregando ..
+            {label} ..
           </span>
         </div>
         <div className="flex items-center gap-x-5"></div>

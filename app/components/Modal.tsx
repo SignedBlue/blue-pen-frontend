@@ -74,7 +74,7 @@ const Modal = ({ title, content }: ModalProps) => {
                   <div className="w-full flex items-center justify-between mb-4">
                     <Dialog.Title
                       as="h3"
-                      className="text-blue-600 text-2xl _title mb-0 font-bold"
+                      className="text-black text-2xl _title mb-0 font-bold"
                     >
                       {title}
                     </Dialog.Title>
@@ -96,7 +96,7 @@ const Modal = ({ title, content }: ModalProps) => {
                         type="button"
                         disabled={currentPage === 0}
                         onClick={prevPage}
-                        className={`inline-flex justify-center items-center gap-x-1 px-2 h-[40px] rounded-md text-sm font-medium focus:outline-none ${currentPage === 0 ? "pointer-events-none bg-gray-200 opacity-0" : "bg-blue-100 hover:bg-blue-200 text-blue-900"}`}
+                        className={`inline-flex justify-center items-center gap-x-1 px-2 h-[40px] rounded-md text-sm font-medium focus:outline-none ${currentPage === 0 ? "pointer-events-none opacity-0" : "bg-blue-100 hover:bg-blue-200 text-blue-900"}`}
                       >
                         <MdArrowBackIosNew />
                         <span className="text-sm">Anterior</span>
@@ -112,7 +112,7 @@ const Modal = ({ title, content }: ModalProps) => {
                         type="button"
                         disabled={currentPage === paragraphs.length - 1}
                         onClick={nextPage}
-                        className={`inline-flex justify-center items-center gap-x-1 px-2 h-[40px] rounded-md text-sm font-medium focus:outline-none ${currentPage === paragraphs.length - 1 ? "pointer-events-none bg-gray-200 opacity-0" : "bg-blue-100 hover:bg-blue-200 text-blue-900"}`}
+                        className={`inline-flex justify-center items-center gap-x-1 px-2 h-[40px] rounded-md text-sm font-medium focus:outline-none ${currentPage === paragraphs.length - 1 ? "pointer-events-none opacity-0" : "bg-blue-100 hover:bg-blue-200 text-blue-900"}`}
                       >
                         <span className="text-sm">Próximo</span>
                         <MdArrowForwardIos />

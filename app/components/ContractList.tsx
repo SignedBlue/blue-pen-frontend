@@ -20,9 +20,10 @@ interface ContractListProps {
   isAdmin?: boolean;
   routerBack?: boolean;
   newContract?: boolean;
+  showFilter?: boolean;
 }
 
-const ContractList = ({ contracts, isAdmin = false, routerBack = false, newContract = false }: ContractListProps) => {
+const ContractList = ({ contracts, isAdmin = false, routerBack = false, newContract = false, showFilter = true }: ContractListProps) => {
   const { display, setDisplay } = useAuthContext();
 
   type Rule = (item: TContract) => boolean;
@@ -91,11 +92,13 @@ const ContractList = ({ contracts, isAdmin = false, routerBack = false, newContr
       <Navbar title="Contratos" routerBack={routerBack}>
         <Modal title="Contratos" content={help_contratos} />
         {!!newContract &&
-          <Link href={"/admin/contratos/novo-contrato"} className="border py-1 px-3 rounded-md hover:bg-white hover:text-neutral-500 ease-out duration-200 font-medium">
+          <Link href={"/admin/contratos/novo-contrato"} className="border py-1 px-3 rounded-md hover:bg-white hover:text-dark_bg ease-out duration-200 font-medium">
             Novo Contrato
           </Link>
         }
-        <ContractFilter isAdmin={isAdmin} />
+
+        {showFilter && <ContractFilter isAdmin={isAdmin} />}
+
         <div className="flex items-center">
           <button
             onClick={() => setDisplay("grid")}

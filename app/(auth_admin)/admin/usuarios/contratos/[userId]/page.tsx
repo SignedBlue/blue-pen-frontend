@@ -5,5 +5,5 @@ export default async function SingleUserContracts({ params }: { params: { userId
 
   const contracts: ContractResponse = await getData(`/contracts?client_id=${params.userId}`);
 
-  return <ContractList isAdmin routerBack contracts={contracts} />;
+  return <ContractList isAdmin routerBack showFilter={false} contracts={contracts} />;
 }

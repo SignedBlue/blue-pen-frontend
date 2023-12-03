@@ -170,7 +170,7 @@ const ContractFilter = ({ isAdmin = false }: ContractFilterProps) => {
                             checked={details.termination_date === "true"}
                             onChange={(e) => setDetails({ ...details, termination_date: e.target.checked ? "true" : null })}
                           />
-                          <label htmlFor="termination_date">Vencido</label>
+                          <label htmlFor="termination_date">Vencido / Rescindido</label>
                         </div>
                       </div>
                     </div>

@@ -19,7 +19,7 @@ export default async function UserContractsPage() {
   });
 
   return (
-    <Suspense fallback={<LoadingSkeleton />}>
+    <Suspense fallback={<LoadingSkeleton label="Contratos" />}>
       <ContractList contracts={contracts} />
     </Suspense>
   );

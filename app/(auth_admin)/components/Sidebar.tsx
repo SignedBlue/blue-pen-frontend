@@ -33,7 +33,7 @@ const Sidebar = () => {
       },
       {
         icon: FiUsers,
-        label: "Usuários",
+        label: "Clientes",
         ref: "usuarios"
       },
       // {

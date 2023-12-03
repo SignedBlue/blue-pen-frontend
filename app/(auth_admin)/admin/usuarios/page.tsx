@@ -19,7 +19,7 @@ export default async function UsersPage() {
   });
 
   return (
-    <Suspense fallback={<LoadingSkeleton />}>
+    <Suspense fallback={<LoadingSkeleton label="Clientes" />}>
       <UsersList users={users.data} />
     </Suspense>
   );

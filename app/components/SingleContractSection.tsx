@@ -5,14 +5,14 @@ import React, { useState } from "react";
 import RequestTokenButton from "./RequestTokenButton";
 import Navbar from "./Navbar";
 import Modal from "./Modal";
+import CancelContractButton from "./CancelContractButton";
 
 import { VerifyDocumentStatus } from "@/utils/VerifyDocumentStatus";
 import { VerifyPaymentStatus } from "@/utils/VerifyPaymentStatus";
-
-import { FaRegFile, FaTrashAlt } from "react-icons/fa";
 import { formatDate, formatPostalCode } from "@/utils/formatters";
 import { DeletePayment } from "../actions/_payments";
-import CancelContractButton from "./CancelContractButton";
+
+import { FaRegFile, FaTrashAlt, FaExclamation } from "react-icons/fa";
 
 interface SingleContractSectionProps {
   contract: TContract;
@@ -26,6 +26,8 @@ const SingleContractSection = ({ contract, payments, contractUsers, isAdmin = fa
   const expirationDate = new Date(new Date(contract.start_date).setMonth(new Date(contract.start_date).getMonth() + Number(contract.duration)));
 
   const isSigned = contractUsers.some(cont => cont.signed === true);
+
+  const isOverdue = payments.some(pay => pay.status === "OVERDUE" || pay.status === "PENDING");
 
   // const adminData = contractUsers.find(user => user.user_type === "admin");
 
@@ -41,7 +43,7 @@ const SingleContractSection = ({ contract, payments, contractUsers, isAdmin = fa
         }
       </Navbar>
 
-      <section className="flex justify-between items-stretch gap-10 border-2 p-10 rounded-md h-full">
+      <section className="flex justify-between items-stretch gap-10 p-10 rounded-md h-full bg-neutral-500/50">
         <div className="flex flex-col items-start justify-between w-[50%] h-full">
           <span className="text-xl font-bold mb-2">Informações do contrato:</span>
           <div className="flex items-center gap-x-2">
@@ -66,7 +68,9 @@ const SingleContractSection = ({ contract, payments, contractUsers, isAdmin = fa
 
           <div className="flex items-center gap-x-2 mb-4">
             <span>Status do contrato:</span>
-            <span className={`${(contract.sign_date && contract.termination_date === null) ? "text-green-500" : "text-red-500"} uppercase font-semibold`}>{contract.sign_date ? "Assinado" : "Não assinado"}</span>
+            {contract.termination_date === null &&
+              <span className={`${(contract.sign_date) ? "text-green-500" : "text-red-500"} uppercase font-semibold`}>{contract.sign_date ? "Assinado" : "Não assinado"}</span>
+            }
             <span className={`${contract.termination_date !== null && "text-red-500"} uppercase font-semibold`}>{contract.termination_date !== null && "RESCINDIDO"}</span>
           </div>
 
@@ -75,7 +79,7 @@ const SingleContractSection = ({ contract, payments, contractUsers, isAdmin = fa
           }
 
           {(contract.sign_date && contract.termination_date === null) &&
-            <CancelContractButton />
+            <CancelContractButton contract_id={contract.id} />
           }
         </div>
 
@@ -128,10 +132,11 @@ const SingleContractSection = ({ contract, payments, contractUsers, isAdmin = fa
                 Detalhes
               </button>
               <button
-                className={`${tab === "payments" ? "bg-white text-neutral-600 pointer-events-none" : "hover:bg-white/30 ease-out duration-100"} w-full p-2 rounded-lg`}
+                className={`${tab === "payments" ? "bg-white text-neutral-600 pointer-events-none" : "hover:bg-white/30 ease-out duration-100"} w-full p-2 rounded-lg relative`}
                 onClick={() => setTab("payments")}
               >
                 Pagamentos
+                {(isOverdue && contract.termination_date === null) && <span className="absolute text-white animate-bounce text-sm top-[-15px] right-[-15px] w-[25px] h-[25px] flex items-center justify-center rounded-full bg-red-500"><FaExclamation /></span>}
               </button>
             </div>
           }

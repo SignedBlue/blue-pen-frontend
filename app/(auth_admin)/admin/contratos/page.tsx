@@ -17,7 +17,7 @@ export default async function ContratosPage() {
   });
 
   return (
-    <Suspense fallback={<LoadingSkeleton />}>
+    <Suspense fallback={<LoadingSkeleton label="Contratos" />}>
       <ContractList isAdmin newContract contracts={contracts} />
     </Suspense>
   );

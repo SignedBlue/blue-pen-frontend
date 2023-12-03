@@ -4,11 +4,14 @@ import { Transition, Dialog } from "@headlessui/react";
 import React, { Fragment, useState } from "react";
 import { RiFileForbidLine } from "react-icons/ri";
 import { CancelContract } from "../actions/_contract";
-import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
-const CancelContractButton = () => {
+interface CancelContractButton {
+  contract_id: string;
+}
+
+const CancelContractButton = ({ contract_id }: CancelContractButton) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const { refresh } = useRouter();
 
   function closeModal() {
     setIsOpen(false);
@@ -18,11 +21,18 @@ const CancelContractButton = () => {
     setIsOpen(true);
   }
 
-  async function handleClickCancelContract() {
-    await CancelContract();
+  const handleCancelContractClick = async () => {
+    await CancelContract(contract_id)
+      .then(() => {
+        toast.success("O contrato foi rescindido com sucesso!", {
+          style: {
+            padding: "12px",
+          },
+        });
+      });
+
     setIsOpen(false);
-    refresh();
-  }
+  };
 
   return (
     <>
@@ -84,7 +94,7 @@ const CancelContractButton = () => {
                         Voltar
                       </button>
                       <button
-                        onClick={handleClickCancelContract}
+                        onClick={handleCancelContractClick}
                         className="flex items-center gap-x-2 bg-red-100 text-red-900 py-2 px-4 text-sm rounded-[8px] font-semibold hover:bg-red-200"
                       >
                         Rescindir contrato
