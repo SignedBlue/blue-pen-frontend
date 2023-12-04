@@ -14,6 +14,9 @@ import { CreateContract } from "@/app/actions/_contract";
 // schemas
 import { NewContractSchema } from "@/schemas/Contract";
 
+// icons
+import { FaTrash } from "react-icons/fa";
+
 interface NewContractFormProps {
   users?: DataResponse;
 }
@@ -30,8 +33,8 @@ const NewContractForm = ({ users }: NewContractFormProps) => {
 
   // items proposta
   const [propostaItens, setPropostaItens] = useState<string[]>([
-    // "Implantar um servidor Windows Server 2019 que ficará com a função de servidor de armazenamento de arquivos, possuindo controle de acessos na rede com senha para cada usuário gerenciando a rede de forma mais complexa;",
-    // "Implantar um Mikrotik com função de failover de internet, caso o link principal sofra uma falha ou interrompendo do serviço, o aparelho realiza a troca do link de forma automática. Mantendo a conexão e acesso à internet, estável;",
+    "Implantar um servidor Windows Server 2019 que ficará com a função de servidor de armazenamento de arquivos, possuindo controle de acessos na rede com senha para cada usuário gerenciando a rede de forma mais complexa;",
+    "Implantar um Mikrotik com função de failover de internet, caso o link principal sofra uma falha ou interrompendo do serviço, o aparelho realiza a troca do link de forma automática. Mantendo a conexão e acesso à internet, estável;",
   ]);
 
   const [newPropostaItem, setNewPropostaItem] = useState<string>("");
@@ -43,17 +46,22 @@ const NewContractForm = ({ users }: NewContractFormProps) => {
     }
   };
 
+  const removePropostaItem = (itemToRemove: string) => {
+    const updatedPropostaItens = propostaItens.filter(item => item !== itemToRemove);
+    setPropostaItens(updatedPropostaItens);
+  };
+
   // items servico
   const [servicoItens, setServicoItens] = useState<string[]>([
-    // "Manutenção em Máquinas Windows.",
-    // "Manutenção em Servidores Windows.",
-    // "Manutenção em Backup de Servidores e Máquinas.",
-    // "Backup em nuvem utilizando serviço em nuvem.",
-    // "Monitoramento da rede com Pandora e RDPGuard.",
-    // "Proteção de infraestrutura.",
-    // "Terminal Service – Permite o acesso de cliente/estações remotas para uso do recurso da Rede Local.",
-    // "Serviço de AD (Active Directory) – Segurança completa conforme a LGPD(Lei de Proteção dos Dados).",
-    // "Configuração de hardware (impressoras, scanner, wireless)."
+    "Manutenção em Máquinas Windows.",
+    "Manutenção em Servidores Windows.",
+    "Manutenção em Backup de Servidores e Máquinas.",
+    "Backup em nuvem utilizando serviço em nuvem.",
+    "Monitoramento da rede com Pandora e RDPGuard.",
+    "Proteção de infraestrutura.",
+    "Terminal Service – Permite o acesso de cliente/estações remotas para uso do recurso da Rede Local.",
+    "Serviço de AD (Active Directory) – Segurança completa conforme a LGPD(Lei de Proteção dos Dados).",
+    "Configuração de hardware (impressoras, scanner, wireless)."
   ]);
 
   const [newServicoItem, setNewServicoItem] = useState<string>("");
@@ -65,11 +73,16 @@ const NewContractForm = ({ users }: NewContractFormProps) => {
     }
   };
 
+  const removeServicoItem = (itemToRemove: string) => {
+    const updatedServicoItens = servicoItens.filter(item => item !== itemToRemove);
+    setServicoItens(updatedServicoItens);
+  };
+
   // niveis de suporte
   const [suporteItens, setSuporteItens] = useState<string[]>([
-    // "Realização de manutenção preventiva e corretiva no hardware e software dos computadores e servidores do cliente.",
-    // "Utilização Pandora para monitorar o servidor e a rede, para que nos alerte qualquer tipo de anormalidade que possa estar ocorrendo.",
-    // "Utilização RdpGuard para prevenção contra ramsoware e possíveis ataques na rede."
+    "Realização de manutenção preventiva e corretiva no hardware e software dos computadores e servidores do cliente.",
+    "Utilização Pandora para monitorar o servidor e a rede, para que nos alerte qualquer tipo de anormalidade que possa estar ocorrendo.",
+    "Utilização RdpGuard para prevenção contra ramsoware e possíveis ataques na rede."
   ]);
 
   const [newSuporteItem, setNewSuporteItem] = useState<string>("");
@@ -79,6 +92,11 @@ const NewContractForm = ({ users }: NewContractFormProps) => {
       setSuporteItens([...suporteItens, newSuporteItem]);
       setNewSuporteItem("");
     }
+  };
+
+  const removeSuporteItem = (itemToRemove: string) => {
+    const updatedSuporteItens = suporteItens.filter(item => item !== itemToRemove);
+    setSuporteItens(updatedSuporteItens);
   };
 
   // formas de atendimento
@@ -108,6 +126,13 @@ const NewContractForm = ({ users }: NewContractFormProps) => {
       setNewServicoImplantacao("");
       setNewValorImplantacao(undefined);
     }
+  };
+
+  const removeValoresImplantacaoItem = (itemToRemove: { servico: string; valor: number }) => {
+    const updatedValoresImplantacao = valoresImplantacao.filter(
+      item => item.servico !== itemToRemove.servico || item.valor !== itemToRemove.valor
+    );
+    setValoresImplantacao(updatedValoresImplantacao);
   };
 
   const [client, setClient] = useState<string>("");
@@ -271,12 +296,22 @@ const NewContractForm = ({ users }: NewContractFormProps) => {
         </button>
       </form>
 
-      <div className="flex flex-col items-center bg-white rounded-md w-[50%] h-[400px] p-5 gap-y-5 overflow-y-scroll">
+
+      <div className="flex flex-col items-center bg-white rounded-md w-[50%] h-[450px] p-5 gap-y-5 overflow-y-scroll">
         <div className="flex flex-col items-start w-full">
           <span className="text-xl font-bold text-black mb-2">Itens da proposta</span>
-          <div className="flex flex-col items-start gap-y-1">
+          <div className="flex flex-col items-start w-full">
             {propostaItens.map(item =>
-              <span className="text-neutral-500 font-medium" key={item}>• {item}</span>
+              <div key={item} className="w-full flex items-center justify-between gap-x-4 py-2 group">
+                <span className="text-neutral-500 font-medium _new-contract-item">{item}</span>
+                <button
+                  type="button"
+                  className="flex justify-center items-center rounded-md font-bold bg-neutral-200 h-[25px] w-[25px] min-w-[25px] text-sm text-neutral-900 hover:bg-neutral-300 focus:outline-none opacity-0 group-hover:opacity-100 ease-out duration-200"
+                  onClick={() => removePropostaItem(item)}
+                >
+                  <FaTrash />
+                </button>
+              </div>
             )}
           </div>
         </div>
@@ -285,7 +320,16 @@ const NewContractForm = ({ users }: NewContractFormProps) => {
           <span className="text-xl font-bold text-black mb-4">Serviços:</span>
           <div className="flex flex-col items-start gap-y-1">
             {servicoItens.map(item =>
-              <span className="text-neutral-500 font-medium" key={item}>• {item}</span>
+              <div key={item} className="w-full flex items-center justify-between gap-x-4 py-2 group">
+                <span className="text-neutral-500 font-medium _new-contract-item">{item}</span>
+                <button
+                  type="button"
+                  className="flex justify-center items-center rounded-md font-bold bg-neutral-200 h-[25px] w-[25px] min-w-[25px] text-sm text-neutral-900 hover:bg-neutral-300 focus:outline-none opacity-0 group-hover:opacity-100 ease-out duration-200"
+                  onClick={() => removeServicoItem(item)}
+                >
+                  <FaTrash />
+                </button>
+              </div>
             )}
           </div>
         </div>
@@ -294,7 +338,16 @@ const NewContractForm = ({ users }: NewContractFormProps) => {
           <span className="text-xl font-bold text-black mb-4">Suporte:</span>
           <div className="flex flex-col items-start gap-y-1">
             {suporteItens.map(item =>
-              <span className="text-neutral-500 font-medium" key={item}>• {item}</span>
+              <div key={item} className="w-full flex items-center justify-between gap-x-4 py-2 group">
+                <span className="text-neutral-500 font-medium _new-contract-item">{item}</span>
+                <button
+                  type="button"
+                  className="flex justify-center items-center rounded-md font-bold bg-neutral-200 h-[25px] w-[25px] min-w-[25px] text-sm text-neutral-900 hover:bg-neutral-300 focus:outline-none opacity-0 group-hover:opacity-100 ease-out duration-200"
+                  onClick={() => removeSuporteItem(item)}
+                >
+                  <FaTrash />
+                </button>
+              </div>
             )}
           </div>
         </div>
@@ -317,7 +370,18 @@ const NewContractForm = ({ users }: NewContractFormProps) => {
             <tbody>
               {valoresImplantacao.map((item) => (
                 <tr key={item.valor}>
-                  <td className="border px-4 py-2 text-neutral-500">{item.servico}</td>
+                  <td className="border px-4 py-2 text-neutral-500">
+                    <div className="w-full flex items-center justify-between gap-x-4 group">
+                      {item.servico}
+                      <button
+                        type="button"
+                        className="flex justify-center items-center rounded-md font-bold bg-neutral-200 h-[25px] w-[25px] min-w-[25px] text-sm text-neutral-900 hover:bg-neutral-300 focus:outline-none opacity-0 group-hover:opacity-100 ease-out duration-200"
+                        onClick={() => removeValoresImplantacaoItem(item)}
+                      >
+                        <FaTrash />
+                      </button>
+                    </div>
+                  </td>
                   <td className="border px-4 py-2 text-neutral-500 text-end">R$ {item.valor},00</td>
                 </tr>
               ))}

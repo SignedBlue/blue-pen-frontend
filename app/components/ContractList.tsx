@@ -61,7 +61,7 @@ const ContractList = ({ contracts, isAdmin = false, routerBack = false, newContr
 
   const sign_status_params = useSearchParams().get("sign_status") || "";
   if (sign_status_params === "signed") {
-    rules.push(item => item.sign_date !== null);
+    rules.push(item => item.sign_date !== null && item.termination_date === null);
   } else if (sign_status_params === "unsigned") {
     rules.push(item => item.sign_date == null);
   }
@@ -130,7 +130,7 @@ const ContractList = ({ contracts, isAdmin = false, routerBack = false, newContr
             />
           ))
         ) : (
-          <span>Nenhum contrato encontrado</span>
+          <span>Nenhum contrato encontrado ...</span>
         )}
       </div>
 

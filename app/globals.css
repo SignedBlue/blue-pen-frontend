@@ -22,6 +22,10 @@
   ._help ul li {
     @apply before:content-["•"] before:mr-2 before:text-2xl;
   }
+
+  ._new-contract-item {
+    @apply before:content-["•"] before:mr-2
+  }
 }
 
 @layer utilities {

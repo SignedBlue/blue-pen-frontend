@@ -22,12 +22,11 @@ export async function SendAsaasData(data: InputAsaas) {
       complement: data.complement,
       cpfCnpj: cleanMask(data.cpfCnpj),
       mobilePhone: cleanMask(data.mobilePhone),
-      phone: cleanMask(data.phone as string),
+      phone: data.phone ? cleanMask(data.phone as string) : cleanMask(data.mobilePhone as string),
       postalCode: cleanMask(data.postalCode),
       province: data.province,
       user_id: user_id,
     };
-
 
     const res = await fetch(`${backendUrl}/users/account`, {
       method: "POST",

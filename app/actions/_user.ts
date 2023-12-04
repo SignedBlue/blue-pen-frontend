@@ -24,6 +24,7 @@ export async function CreateUser(data: CreateUserInputs) {
 
     const createdUser: TCreatedUser = await getData("/users", {
       method: "POST",
+      cache: "no-cache",
       body: JSON.stringify(user)
     });
 
