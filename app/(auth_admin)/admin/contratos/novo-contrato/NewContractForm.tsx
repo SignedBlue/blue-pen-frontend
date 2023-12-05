@@ -16,6 +16,7 @@ import { NewContractSchema } from "@/schemas/Contract";
 
 // icons
 import { FaTrash } from "react-icons/fa";
+import { formatDecimal } from "@/utils/formatters";
 
 interface NewContractFormProps {
   users?: DataResponse;
@@ -382,12 +383,12 @@ const NewContractForm = ({ users }: NewContractFormProps) => {
                       </button>
                     </div>
                   </td>
-                  <td className="border px-4 py-2 text-neutral-500 text-end">R$ {item.valor},00</td>
+                  <td className="border px-4 py-2 text-neutral-500 text-end">R$ {formatDecimal(item.valor)}</td>
                 </tr>
               ))}
               <tr>
                 <td className="border px-4 py-2 text-black font-bold">Total</td>
-                <td className="border px-4 py-2 text-black font-bold text-end">R$ {totalSum},00</td>
+                <td className="border px-4 py-2 text-black font-bold text-end">R$ {formatDecimal(totalSum)}</td>
               </tr>
             </tbody>
           </table>

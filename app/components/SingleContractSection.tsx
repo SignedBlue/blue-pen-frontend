@@ -9,7 +9,7 @@ import CancelContractButton from "./CancelContractButton";
 
 import { VerifyDocumentStatus } from "@/utils/VerifyDocumentStatus";
 import { VerifyPaymentStatus } from "@/utils/VerifyPaymentStatus";
-import { formatDate, formatPostalCode } from "@/utils/formatters";
+import { formatDate, formatDecimal, formatPostalCode } from "@/utils/formatters";
 import { DeletePayment } from "../actions/_payments";
 
 import { FaRegFile, FaTrashAlt, FaExclamation } from "react-icons/fa";
@@ -214,13 +214,13 @@ const SingleContractSection = ({ contract, payments, contractUsers, isAdmin = fa
                   {contract.details.valoresImplantacao.map((item) => (
                     <tr key={item.valor}>
                       <td className="border-b-[.5px] px-4 py-2">{item.servico}</td>
-                      <td className="border-b-[.5px] px-4 py-2 text-end">R$ {item.valor},00</td>
+                      <td className="border-b-[.5px] px-4 py-2 text-end">R$ {formatDecimal(item.valor)}</td>
                     </tr>
                   ))}
                   <tr className="bg-neutral-500/40">
                     <td className="px-4 py-[10px] font-bold">Total</td>
                     <td className="px-4 py-[10px] font-bold text-end">
-                      R$ {contract.details.valoresImplantacao.reduce((acc, item) => acc + item.valor, 0)},00
+                      R$ {formatDecimal(contract.details.valoresImplantacao.reduce((acc, item) => acc + item.valor, 0))}
                     </td>
                   </tr>
                 </tbody>
@@ -272,7 +272,7 @@ const SingleContractSection = ({ contract, payments, contractUsers, isAdmin = fa
                       </div>
                     </td>
 
-                    <td className="border-b px-4 text-sm text-end">RS {pay.value},00</td>
+                    <td className="border-b px-4 text-sm text-end">RS {formatDecimal(pay.value)}</td>
                   </tr>
                 ))}
               </tbody>

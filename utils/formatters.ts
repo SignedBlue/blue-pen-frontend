@@ -54,6 +54,16 @@ const calculateExpirationDate = (dataInicio: string, duracaoMeses: number): Date
   return expirationDate;
 };
 
+const formatDecimal = (value: number): string => {
+  const hasDecimal = value % 1 !== 0;
+
+  if (!hasDecimal) {
+    return `${value.toFixed(0)},00`;
+  } else {
+    return value.toString();
+  }
+};
+
 export {
   formatPhoneNumber,
   reformatPhoneNumber,
@@ -61,5 +71,6 @@ export {
   formatCPF,
   cleanMask,
   formatDate,
-  calculateExpirationDate
+  calculateExpirationDate,
+  formatDecimal
 };
