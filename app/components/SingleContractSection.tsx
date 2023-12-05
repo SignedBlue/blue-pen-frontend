@@ -24,14 +24,15 @@ interface SingleContractSectionProps {
 
 const SingleContractSection = ({ contract, payments, contractUsers, isAdmin = false }: SingleContractSectionProps) => {
 
+  // contracts
   const expirationDate = new Date(new Date(contract.start_date).setMonth(new Date(contract.start_date).getMonth() + Number(contract.duration)));
-
-  const isSigned = contractUsers.some(cont => cont.signed === true);
-
   const isOverdue = payments.some(pay => pay.status === "OVERDUE");
+  const isPending = payments.some(pay => pay.status === "PENDING");
 
+
+  // users
+  const isSigned = contractUsers.some(cont => cont.signed === true);
   const adminData = contractUsers.find(user => user.user_type === "admin");
-
   const clientData = contractUsers.find(user => user.user_type === "client");
 
   type TabOptions = "details" | "payments"
@@ -160,7 +161,13 @@ const SingleContractSection = ({ contract, payments, contractUsers, isAdmin = fa
                 onClick={() => setTab("payments")}
               >
                 Pagamentos
-                {(isOverdue && contract.termination_date === null) && <span className="absolute text-white animate-bounce text-sm top-[-15px] right-[-15px] w-[25px] h-[25px] flex items-center justify-center rounded-full bg-red-500"><FaExclamation /></span>}
+                {(isOverdue && contract.termination_date === null) &&
+                  <span className="absolute text-white animate-bounce text-sm top-[-15px] right-[-15px] w-[25px] h-[25px] flex items-center justify-center rounded-full bg-red-500"><FaExclamation /></span>
+                }
+
+                {(isPending && contract.termination_date === null) &&
+                  <span className="absolute text-white animate-bounce text-sm top-[-15px] right-[-15px] w-[25px] h-[25px] flex items-center justify-center rounded-full bg-yellow-500"><FaExclamation /></span>
+                }
               </button>
             </div>
           }
