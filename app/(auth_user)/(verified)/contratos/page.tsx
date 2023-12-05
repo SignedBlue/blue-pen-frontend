@@ -11,10 +11,11 @@ export const metadata: Metadata = {
 
 export default async function UserContractsPage() {
   const user_id = cookies().get("user_id")?.value;
+
   const contracts: ContractResponse = await getData(`/contracts?client_id=${user_id}`, {
     cache: "no-cache",
     next: {
-      tags: ["contracts"]
+      tags: ["contracts", "single_contract"]
     },
   });
 

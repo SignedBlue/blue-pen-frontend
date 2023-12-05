@@ -57,18 +57,39 @@ const UserSchemaUpdateInfos = z.object({
   postalCode: z
     .string()
     .optional(),
-  // password: z
-  //   .string()
-  //   .min(1, "Digite a senha atual para confirmar, ou altere-a.")
-  //   .trim()
-  //   .min(6, { message: "A senha deve ter pelo menos 6 caracteres." })
-  //   .refine(value => /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()])[A-Za-z\d!@#$%^&*()]+$/.test(value), {
-  //     message: "A senha deve conter pelo menos uma letra maiúscula, um número e um caractere especial."
-  //   })
 });
+
+const UserForgotPasswordSchema = z.object({
+  identifier: z
+    .string()
+    .min(1, "Email obrigatório")
+    .email("Email inválido")
+});
+
+const UserRedefinePasswordSchema = z.object({
+  password: z
+    .string()
+    .trim()
+    .min(6, { message: "A senha deve ter pelo menos 6 caracteres." })
+    .refine(value => /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()])[A-Za-z\d!@#$%^&*()]+$/.test(value), {
+      message: "A senha deve conter pelo menos uma letra maiúscula, um número e um caractere especial."
+    }),
+  confirmPassword: z
+    .string()
+    .min(1, "Confirme a senha.")
+}).refine((values) => {
+  return values.password === values.confirmPassword;
+},
+  {
+    message: "As senhas não coincidem.",
+    path: ["confirmPassword"],
+  }
+);
 
 export {
   UserSchemaLogin,
   UserSchemaRegister,
-  UserSchemaUpdateInfos
+  UserSchemaUpdateInfos,
+  UserForgotPasswordSchema,
+  UserRedefinePasswordSchema
 };

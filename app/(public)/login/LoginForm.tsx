@@ -16,6 +16,7 @@ import { UserSchemaLogin } from "@/schemas/User";
 // actions
 import { Login } from "@/app/actions/_user";
 import toast from "react-hot-toast";
+import ForgotPasswordButton from "./ForgotPasswordButton";
 // import ForgotPasswordButton from "./ForgotPasswordButton";
 
 type Inputs = z.infer<typeof UserSchemaLogin>
@@ -32,20 +33,20 @@ const LoginForm = () => {
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     await Login(data)
       .then((res) => {
-        if (res?.payload.error === "Unauthorized" || res?.statusCode === 401) {
+        if (res?.payload?.error === "Unauthorized" || res?.statusCode === 401) {
           toast.error("Senha ou email inválidos. Por favor, verifique suas credenciais.", {
             style: {
               padding: "12px",
             },
           });
-        } else if (res?.payload.error === "Not Found" || res?.statusCode === 404) {
+        } else if (res?.payload?.error === "Not Found" || res?.statusCode === 404) {
           toast.error("Usuário não encontrado. Verifique se está usando as credenciais corretas.", {
             style: {
               padding: "12px",
             },
           });
         } else {
-          toast.success(`Bem-vindo novamente, ${data.identifier}!`, {
+          toast.success(`Bem-vindo novamente, ${data?.identifier}!`, {
             style: {
               padding: "12px",
             }
@@ -93,7 +94,7 @@ const LoginForm = () => {
           />
           <label htmlFor="connected">Mantenha-me conectado</label>
         </div>
-        {/* <ForgotPasswordButton email="" /> */}
+        <ForgotPasswordButton />
       </div>
       <button
         type='submit'

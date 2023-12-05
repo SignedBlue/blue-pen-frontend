@@ -33,36 +33,83 @@ const help_contratos = `
 `;
 
 const help_novo_contrato = `
-    <p>
-      Ao criar um contrato na Bluepen, você desfruta de diversas facilidades que simplificam o processo. Detalhamos cada etapa para ajudar a aproveitar ao máximo essas vantagens:
-    </p>
+  <p>
+    Ao criar um contrato na Bluepen, você desfruta de diversas facilidades que simplificam o processo. Detalhamos cada etapa para ajudar a aproveitar ao máximo essas vantagens:
+  </p>
 
-    --break--
-    <h2 class="subtitle">Detalhes do contrato:</h2>
-    <ul class="list-disc pl-6">
-      <li class="mb-2">Itens da Proposta: Lista dos itens propostos para o contrato.</li>
-      <li class="mb-2">Serviços: Lista dos serviços incluídos no contrato.</li>
-    </ul>
+  --break--
+  <h2 class="subtitle">Detalhes do contrato:</h2>
+  <ul class="list-disc pl-6">
+    <li class="mb-2">Itens da Proposta: Lista dos itens propostos para o contrato.</li>
+    <li class="mb-2">Serviços: Lista dos serviços incluídos no contrato.</li>
+  </ul>
 
-    --break--
-    <h2 class="subtitle">Detalhes do contrato:</h2>
-    <ul class="list-disc pl-6">
-      <li class="mb-2">Níveis de Suporte: Lista dos níveis de suporte oferecidos.</li>
-      <li class="mb-2">Valores de Implantação: Lista dos valores de implantação associados a diferentes serviços.</li>
-    </ul>
+  --break--
+  <h2 class="subtitle">Detalhes do contrato:</h2>
+  <ul class="list-disc pl-6">
+    <li class="mb-2">Níveis de Suporte: Lista dos níveis de suporte oferecidos.</li>
+    <li class="mb-2">Valores de Implantação: Lista dos valores de implantação associados a diferentes serviços.</li>
+  </ul>
 
-    --break--
-    <h2 class="subtitle">Informações Gerais</h2>
-    <ul class="list-disc pl-6">
+  --break--
+  <h2 class="subtitle">Informações Gerais</h2>
+  <ul class="list-disc pl-6">
     <li class="mb-1">Cliente relacionado: Seleção do cliente associado ao contrato.</li>
     <li class="mb-1">Data de Início: Data prevista para o início do contrato.</li>
     <li class="mb-1">Duração: Duração em meses do contrato.</li>
-    </ul>
+  </ul>
 
+  --break--
+  <p>
+    Ao <b>criar</b> o contrato, tenha em mente que as informações fornecidas <b>não poderão</b> ser alteradas posteriormente. Certifique-se de revisar cuidadosamente todos os detalhes antes de finalizar.
+  </p>
 `;
 
 const help_contrato_verified = `
+  <p>
+    Bem-vindo à página de Contratos!
+    Navegue pelos detalhes do contrato e dos pagamentos para ficar por dentro de todas as informações importantes.
+  </p>
 
+  --break--
+  <h2 class="subtitle">Informações do Contrato</h2>
+  <ul class="list-disc pl-6">
+    <li>ID: Identificador único do contrato.</li>
+    <li>Duração: Tempo em meses que o contrato estará ativo.</li>
+    <li>Expiração: Data em que o contrato será encerrado.</li>
+    <li>Assinaturas do Admin e do Cliente, e Status do Contrato (assinado ou não).</li>
+    <li>Status do Contrato: Indica se o contrato está assinado ou não.</li>
+  </ul>
+
+  --break--
+  <h2 class="subtitle">Rescisão de Contrato</h2>
+  <p>
+    Para rescindir o contrato, utilize o botão de rescisão. Lembre-se de que essa ação pode ter <b>consequências</b> e deve ser feita com cuidado.
+  </p>
+
+  --break--
+  <h2 class="subtitle">Dados do Cliente</h2>
+  <ul class="list-disc pl-6">
+    <li>Nome, Email e Status dos Documentos.</li>
+    <li>Detalhes do Endereço (Rua, Cidade e CEP).</li>
+  </ul>
+
+  --break--
+  <h2 class="subtitle">Detalhes Adicionais</h2>
+  <ul class="list-disc pl-6">
+    <li>Itens da Proposta: Descrição dos principais pontos propostos.</li>
+    <li>Serviços Contratados: Lista dos serviços incluídos no contrato.</li>
+    <li>Níveis de Suporte: Informações sobre os níveis de assistência oferecidos.</li>
+    <li>Tabela de Valores: Detalhes financeiros e valores acordados.</li>
+  </ul>
+
+  --break--
+  <h2 class="subtitle">Pagamentos</h2>
+  <p>Aqui está um resumo dos pagamentos relacionados ao contrato:</p>
+  <ul class="list-disc pl-6">
+    <li>Data de Vencimento, Status do Pagamento e Valor.</li>
+    <li>Link para o boleto para cada pagamento.</li>
+  </ul>
 `;
 
 const help_contrato_not_verified = `

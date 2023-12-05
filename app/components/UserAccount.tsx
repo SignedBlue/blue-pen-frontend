@@ -14,7 +14,7 @@ interface UserAccountProps {
 const UserAccount = ({ userName, isAdmin = false }: UserAccountProps) => {
   return (
     <Popover className="relative">
-      {({ open }) => (
+      {({ open, close }) => (
         <>
           <Popover.Button
             className={`
@@ -45,10 +45,15 @@ const UserAccount = ({ userName, isAdmin = false }: UserAccountProps) => {
             leaveTo="opacity-0 translate-y-1"
           >
             <Popover.Panel className="absolute right-0 mt-3 !z-[200] transform px-4 bg-neutral-100 text-neutral-500 font-medium rounded-xl flex flex-col items-center p-4 gap-y-3 w-[200px]">
-              <Link href={isAdmin ? "/admin/configuracoes/perfil" : "/configuracoes/perfil"} className="w-full flex items-center justify-center gap-x-2 hover:text-neutral-400">
+              <Link
+                href={isAdmin ? "/admin/configuracoes/perfil" : "/configuracoes/perfil"}
+                className="w-full flex items-center justify-center gap-x-2 hover:text-neutral-400"
+                onClick={() => close()}
+              >
                 <i><FaUserCog /></i>
                 <span>Meus dados</span>
               </Link>
+
               <LogoutButton />
             </Popover.Panel>
           </Transition>

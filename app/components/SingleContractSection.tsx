@@ -13,6 +13,7 @@ import { formatDate, formatPostalCode } from "@/utils/formatters";
 import { DeletePayment } from "../actions/_payments";
 
 import { FaRegFile, FaTrashAlt, FaExclamation } from "react-icons/fa";
+import { help_contrato_verified } from "@/constants/Helps";
 
 interface SingleContractSectionProps {
   contract: TContract;
@@ -27,9 +28,11 @@ const SingleContractSection = ({ contract, payments, contractUsers, isAdmin = fa
 
   const isSigned = contractUsers.some(cont => cont.signed === true);
 
-  const isOverdue = payments.some(pay => pay.status === "OVERDUE" || pay.status === "PENDING");
+  const isOverdue = payments.some(pay => pay.status === "OVERDUE");
 
-  // const adminData = contractUsers.find(user => user.user_type === "admin");
+  const adminData = contractUsers.find(user => user.user_type === "admin");
+
+  const clientData = contractUsers.find(user => user.user_type === "client");
 
   type TabOptions = "details" | "payments"
   const [tab, setTab] = useState<TabOptions>("details");
@@ -37,7 +40,7 @@ const SingleContractSection = ({ contract, payments, contractUsers, isAdmin = fa
   return (
     <div className="flex flex-col gap-y-10">
       <Navbar title={`Contrato de ${contract.client?.name.split(" ")[0]}`} routerBack>
-        <Modal title="Contrato" content="Contrato" />
+        <Modal title="Contrato" content={help_contrato_verified} />
         {isSigned &&
           <a target="_blank" href={`${contract?.url}`} className="border h-[30px] flex items-center justify-center px-3 rounded-md hover:bg-white hover:text-neutral-900 ease-out duration-200 font-medium">Visualizar Contrato</a>
         }
@@ -47,34 +50,53 @@ const SingleContractSection = ({ contract, payments, contractUsers, isAdmin = fa
         <div className="flex flex-col items-start justify-between w-[50%] h-full">
           <span className="text-xl font-bold mb-2">Informações do contrato:</span>
           <div className="flex items-center gap-x-2">
-            <span>id:</span>
+            <span className="font-semibold">id:</span>
             <span>{contract.id}</span>
           </div>
           <div className="flex items-center gap-x-2">
-            <span>Duração:</span>
+            <span className="font-semibold">Duração:</span>
             <span>{contract.duration} meses</span>
           </div>
           <div className="flex items-center gap-x-2">
-            <span>Expiração:</span>
+            <span className="font-semibold">Expiração:</span>
             <span>{formatDate(expirationDate)}</span>
           </div>
 
-          {contract.sign_date &&
-            <div className="flex items-center gap-x-2">
-              <span>Data de assinatura:</span>
-              <span>{formatDate(new Date(contract.sign_date))}</span>
-            </div>
-          }
+          <div className="flex flex-col items-start my-4">
+            <span className="font-semibold">Assinaturas:</span>
+            {/* {contract.sign_date &&
+              <div className="flex items-center gap-x-2 ml-3">
+                <span>Data de assinatura:</span>
+                <span>{formatDate(new Date(contract.sign_date))}</span>
+              </div>
+            } */}
+            {adminData?.signed &&
+              <div className="flex items-center gap-x-2 ml-2">
+                <span>Assinado por admin:</span>
+                <span className="font-semibold">{formatDate(new Date(adminData.signed_date))}</span>
+              </div>
+            }
+            {clientData?.signed &&
+              <div className="flex items-center gap-x-2 ml-2">
+                <span>Assinado por {contract.client.name || "Cliente"}:</span>
+                <span className="font-semibold">{formatDate(new Date(clientData.signed_date))}</span>
+              </div>
+            }
+          </div>
 
           <div className="flex items-center gap-x-2 mb-4">
-            <span>Status do contrato:</span>
+            <span className="font-semibold">Status do contrato:</span>
             {contract.termination_date === null &&
               <span className={`${(contract.sign_date) ? "text-green-500" : "text-red-500"} uppercase font-semibold`}>{contract.sign_date ? "Assinado" : "Não assinado"}</span>
             }
             <span className={`${contract.termination_date !== null && "text-red-500"} uppercase font-semibold`}>{contract.termination_date !== null && "RESCINDIDO"}</span>
           </div>
 
-          {!contract.sign_date &&
+          {(!adminData?.signed && isAdmin) &&
+            <RequestTokenButton contract_id={contract.id} document_status={contract.client.document_status} />
+          }
+
+          {(!clientData?.signed && !isAdmin) &&
             <RequestTokenButton contract_id={contract.id} document_status={contract.client.document_status} />
           }
 
@@ -87,28 +109,30 @@ const SingleContractSection = ({ contract, payments, contractUsers, isAdmin = fa
           <div className="flex flex-col items-start gap-y-1">
             <span className="text-xl font-bold mb-1">Dados do cliente:</span>
             <div className="flex items-center gap-x-2">
-              <span>Nome:</span>
+              <span className="font-semibold">Nome:</span>
               <span>{contract.client.name}</span>
             </div>
             <div className="flex items-center gap-x-2">
-              <span>Email:</span>
+              <span className="font-semibold">Email:</span>
               <span>{contract.client.email}</span>
             </div>
             <div className="flex items-center gap-x-2">
-              <span>Status dos documentos:</span>
+              <span className="font-semibold">Status dos documentos:</span>
               <span className={`${contract.client.document_status === "APPROVED" ? "text-green-500" : contract.client.document_status === "REJECTED" ? "text-red-500" : "text-yellow-400"} font-medium uppercase`}>
                 {VerifyDocumentStatus(contract.client.document_status)}
               </span>
             </div>
-            <div className="flex items-start gap-x-2 mt-2">
+
+            <div className="flex flex-col items-start gap-x-2 mt-2">
+              <span className="font-semibold">Endereço:</span>
               {contract.client.address &&
                 <div className="flex flex-col items-start">
-                  <div className="flex items-center gap-x-2">
+                  <div className="flex items-center gap-x-2 ml-2">
                     <span>Rua:</span>
                     <span>{contract.client.address?.street},</span>
                     <span>{contract.client.address?.number}</span>
                   </div>
-                  <div className="flex items-center gap-x-2">
+                  <div className="flex items-center gap-x-2 ml-2">
                     <span>Cidade:</span>
                     <span>{contract.client.address?.city},</span>
                     <span>{formatPostalCode(contract.client.address?.postal_code)}</span>

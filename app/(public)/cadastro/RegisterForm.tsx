@@ -35,30 +35,32 @@ const RegisterForm = () => {
   const { push } = useRouter();
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
-    await CreateUser(data)
-      .then((res) => {
-        if (res?.statusCode === 409 || res?.payload.error === "Conflict") {
-          toast.error("Este email já está em uso. Por favor, use outro email ou faça login.", {
-            style: {
-              padding: "12px",
-            }
-          });
-        } else {
-          toast.success("Sua conta foi criada com sucesso! Faça login para começar a usar o BluePen.", {
-            style: {
-              padding: "12px",
-            }
-          });
-          push("/login");
-        }
-      })
-      .catch(() => {
-        toast.error("Desculpe, houve um problema ao criar sua conta. Por favor, tente novamente mais tarde.", {
-          style: {
-            padding: "12px",
+    try {
+      await CreateUser(data)
+        .then((res) => {
+          if (res?.statusCode === 409 || res?.payload?.error === "Conflict") {
+            toast.error("Este email já está em uso. Por favor, use outro email ou faça login.", {
+              style: {
+                padding: "12px",
+              }
+            });
+          } else {
+            toast.success("Sua conta foi criada com sucesso! Faça login para começar a usar o BluePen.", {
+              style: {
+                padding: "12px",
+              }
+            });
+            push("/login");
           }
         });
+    } catch (err) {
+      toast.error("Desculpe, houve um problema ao criar sua conta. Por favor, tente novamente mais tarde.", {
+        style: {
+          padding: "12px",
+        }
       });
+
+    }
   };
 
   return (

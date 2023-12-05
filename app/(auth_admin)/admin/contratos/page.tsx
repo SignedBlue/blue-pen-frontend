@@ -12,7 +12,7 @@ export default async function ContratosPage() {
   const contracts: ContractResponse = await getData("/contracts", {
     cache: "no-cache",
     next: {
-      tags: ["contracts"]
+      tags: ["contracts", "single_contract"]
     }
   });
 

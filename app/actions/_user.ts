@@ -2,15 +2,22 @@
 
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import { revalidateTag } from "next/cache";
 
 import { CookiesValues } from "@/constants/Cookies";
 
-import { UserSchemaLogin, UserSchemaRegister, UserSchemaUpdateInfos } from "@/schemas/User";
+import {
+  UserForgotPasswordSchema,
+  UserSchemaLogin,
+  UserSchemaRegister,
+  UserSchemaUpdateInfos
+} from "@/schemas/User";
 import { getData } from "@/utils/getData";
 
 // libs
 import { z } from "zod";
-import { revalidateTag } from "next/cache";
+
+// utils
 import { backendUrl } from "@/constants/Urls";
 import { cleanMask } from "@/utils/formatters";
 
@@ -54,7 +61,6 @@ export async function Login(data: LoginInputs) {
       cache: "no-cache",
       body: JSON.stringify(user)
     });
-
 
     if ("token" in authRes) {
       const week = 60 * 60 * 24 * 7;
@@ -121,7 +127,6 @@ export async function UpdateUserInfos(data: UpdateInputs) {
       },
     };
 
-
     const res = await fetch(`${backendUrl}/users/${user_id}`, {
       method: "PATCH",
       cache: "no-cache",
@@ -142,12 +147,39 @@ export async function UpdateUserInfos(data: UpdateInputs) {
 
 }
 
-export async function ForgotPassword(email: string) {
+type IForgotPasswordInputs = z.infer<typeof UserForgotPasswordSchema>
+
+export async function ForgotPasswordRequestToken(data: IForgotPasswordInputs) {
+  const ForgotPasswordBody = {
+    email: data.identifier
+  };
+
   await getData("/users/reset-password", {
     method: "POST",
     cache: "no-cache",
-    body: JSON.stringify({
-      email
-    })
+    body: JSON.stringify(ForgotPasswordBody)
   });
+
+  return true;
+}
+
+export async function ForgotPassword({ password, token, user_id }: { password: string, user_id: string, token: string }) {
+
+  const updatedUser = {
+    password: password
+  };
+
+  const res = await fetch(`${backendUrl}/users/${user_id}`, {
+    method: "PATCH",
+    cache: "no-cache",
+    headers: {
+      "Authorization": `Bearer ${token}`,
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(updatedUser)
+  });
+
+  const ress = await res.json();
+
+  return ress;
 }

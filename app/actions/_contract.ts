@@ -72,6 +72,8 @@ export async function SignContract({ token, contract_id }: { token: string; cont
     })
   });
 
+  revalidateTag("single_contract");
+
   return res;
 }
 
