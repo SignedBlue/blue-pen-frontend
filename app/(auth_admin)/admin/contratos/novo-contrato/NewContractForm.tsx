@@ -302,7 +302,7 @@ const NewContractForm = ({ users }: NewContractFormProps) => {
           <span className="text-xl font-bold text-black mb-2">Itens da proposta</span>
           <div className="flex flex-col items-start w-full">
             {propostaItens.map(item =>
-              <div key={item} className="w-full flex items-center justify-between gap-x-4 py-2 group">
+              <div key={item} className="w-full flex items-start justify-between gap-x-4 py-2 group">
                 <span className="text-neutral-500 font-medium _new-contract-item">{item}</span>
                 <button
                   type="button"
@@ -318,9 +318,9 @@ const NewContractForm = ({ users }: NewContractFormProps) => {
 
         <div className="flex flex-col items-start w-full">
           <span className="text-xl font-bold text-black mb-4">Serviços:</span>
-          <div className="flex flex-col items-start gap-y-1">
+          <div className="flex flex-col items-start w-full">
             {servicoItens.map(item =>
-              <div key={item} className="w-full flex items-center justify-between gap-x-4 py-2 group">
+              <div key={item} className="w-full flex items-start justify-between gap-x-4 py-2 group">
                 <span className="text-neutral-500 font-medium _new-contract-item">{item}</span>
                 <button
                   type="button"
@@ -336,9 +336,9 @@ const NewContractForm = ({ users }: NewContractFormProps) => {
 
         <div className="flex flex-col items-start w-full">
           <span className="text-xl font-bold text-black mb-4">Suporte:</span>
-          <div className="flex flex-col items-start gap-y-1">
+          <div className="flex flex-col items-start w-full">
             {suporteItens.map(item =>
-              <div key={item} className="w-full flex items-center justify-between gap-x-4 py-2 group">
+              <div key={item} className="w-full flex items-start justify-between gap-x-4 py-2 group">
                 <span className="text-neutral-500 font-medium _new-contract-item">{item}</span>
                 <button
                   type="button"

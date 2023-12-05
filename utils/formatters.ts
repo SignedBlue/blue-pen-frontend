@@ -7,6 +7,19 @@ const formatPhoneNumber = (phoneNumber: string) => {
   return phoneNumber;
 };
 
+function reformatPhoneNumber(phoneNumber: string): string {
+  const cleaned = ("" + phoneNumber).replace(/\D/g, ""); // Remove non-numeric characters
+
+  const match = cleaned.match(/^(\d{2})(\d{5})(\d{4})$/);
+
+  if (match) {
+    return `(${match[1]}) ${match[2]}-${match[3]}`;
+  }
+
+  // If the number doesn't match the expected pattern, return the original value
+  return phoneNumber;
+}
+
 const formatPostalCode = (postalCode: string) => {
   return postalCode.replace(/^(\d{2})(\d{3})(\d{3})$/, "$1$2-$3");
 };
@@ -43,6 +56,7 @@ const calculateExpirationDate = (dataInicio: string, duracaoMeses: number): Date
 
 export {
   formatPhoneNumber,
+  reformatPhoneNumber,
   formatPostalCode,
   formatCPF,
   cleanMask,

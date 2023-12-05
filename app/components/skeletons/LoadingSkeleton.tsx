@@ -22,7 +22,6 @@ const LoadingSkeleton = ({ label = "Carregando" }: { label?: string }) => {
             <div className="h-[20px] w-full rounded-lg bg-dark_bg/60" />
           </div>
         ))}
-
       </section>
     </>
   );

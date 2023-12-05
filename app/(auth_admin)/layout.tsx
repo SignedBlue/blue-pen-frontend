@@ -29,7 +29,7 @@ export default async function AuthLayout({ children }: { children: React.ReactNo
         <header className="px-10 py-5 flex items-center justify-between bg-black/40 backdrop-blur-lg text-white rounded-[25px] z-50">
           <PathView />
           <div className="flex items-center justify-end gap-x-5">
-            <UserAccount userName={userName as string} />
+            <UserAccount userName={userName as string} isAdmin />
           </div>
         </header>
 

@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import { cookies } from "next/headers";
 import UsersList from "./UsersList";
 import { getData } from "@/utils/getData";
-import LoadingSkeleton from "@/app/components/LoadingSkeleton";
+import LoadingSkeleton from "@/app/components/skeletons/LoadingSkeleton";
 import { Suspense } from "react";
 
 export const metadata: Metadata = {

@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import ContractList from "@/app/components/ContractList";
 import { getData } from "@/utils/getData";
 import { Suspense } from "react";
-import LoadingSkeleton from "@/app/components/LoadingSkeleton";
+import LoadingSkeleton from "@/app/components/skeletons/LoadingSkeleton";
 
 export const metadata: Metadata = {
   title: "Contratos",

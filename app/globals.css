@@ -26,6 +26,10 @@
   ._new-contract-item {
     @apply before:content-["•"] before:mr-2
   }
+
+  ._input {
+    @apply rounded-md p-2 w-full text-dark_bg outline-none h-[40px];
+  }
 }
 
 @layer utilities {

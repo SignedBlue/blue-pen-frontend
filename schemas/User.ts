@@ -32,4 +32,43 @@ const UserSchemaRegister = z.object({
     })
 });
 
-export { UserSchemaLogin, UserSchemaRegister };
+const UserSchemaUpdateInfos = z.object({
+  name: z
+    .string()
+    .optional(),
+  phone: z
+    .string()
+    .optional(),
+  mobilePhone: z
+    .string()
+    .optional(),
+  address: z
+    .string()
+    .optional(),
+  addressNumber: z
+    .string()
+    .optional(),
+  complement: z
+    .string()
+    .optional(),
+  city: z
+    .string()
+    .optional(),
+  postalCode: z
+    .string()
+    .optional(),
+  // password: z
+  //   .string()
+  //   .min(1, "Digite a senha atual para confirmar, ou altere-a.")
+  //   .trim()
+  //   .min(6, { message: "A senha deve ter pelo menos 6 caracteres." })
+  //   .refine(value => /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()])[A-Za-z\d!@#$%^&*()]+$/.test(value), {
+  //     message: "A senha deve conter pelo menos uma letra maiúscula, um número e um caractere especial."
+  //   })
+});
+
+export {
+  UserSchemaLogin,
+  UserSchemaRegister,
+  UserSchemaUpdateInfos
+};

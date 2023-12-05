@@ -16,6 +16,7 @@ import { UserSchemaLogin } from "@/schemas/User";
 // actions
 import { Login } from "@/app/actions/_user";
 import toast from "react-hot-toast";
+// import ForgotPasswordButton from "./ForgotPasswordButton";
 
 type Inputs = z.infer<typeof UserSchemaLogin>
 
@@ -92,6 +93,7 @@ const LoginForm = () => {
           />
           <label htmlFor="connected">Mantenha-me conectado</label>
         </div>
+        {/* <ForgotPasswordButton email="" /> */}
       </div>
       <button
         type='submit'

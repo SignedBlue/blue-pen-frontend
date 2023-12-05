@@ -1,5 +1,5 @@
 import ContractList from "@/app/components/ContractList";
-import LoadingSkeleton from "@/app/components/LoadingSkeleton";
+import LoadingSkeleton from "@/app/components/skeletons/LoadingSkeleton";
 import { getData } from "@/utils/getData";
 import { Metadata } from "next";
 import { cookies } from "next/headers";

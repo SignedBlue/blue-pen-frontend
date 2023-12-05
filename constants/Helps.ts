@@ -34,31 +34,31 @@ const help_contratos = `
 
 const help_novo_contrato = `
     <p>
-      Ao criar um contrato na Bluepen, você desfruta de diversas facilidades que simplificam o processo. Abaixo, detalhamos cada etapa para ajudar a aproveitar ao máximo essas vantagens:
+      Ao criar um contrato na Bluepen, você desfruta de diversas facilidades que simplificam o processo. Detalhamos cada etapa para ajudar a aproveitar ao máximo essas vantagens:
     </p>
+
+    --break--
+    <h2 class="subtitle">Detalhes do contrato:</h2>
+    <ul class="list-disc pl-6">
+      <li class="mb-2">Itens da Proposta: Lista dos itens propostos para o contrato.</li>
+      <li class="mb-2">Serviços: Lista dos serviços incluídos no contrato.</li>
+    </ul>
+
+    --break--
+    <h2 class="subtitle">Detalhes do contrato:</h2>
+    <ul class="list-disc pl-6">
+      <li class="mb-2">Níveis de Suporte: Lista dos níveis de suporte oferecidos.</li>
+      <li class="mb-2">Valores de Implantação: Lista dos valores de implantação associados a diferentes serviços.</li>
+    </ul>
 
     --break--
     <h2 class="subtitle">Informações Gerais</h2>
     <ul class="list-disc pl-6">
-      <li class="mb-1">Duração: Duração em meses do contrato.</li>
-      <li class="mb-1">Data de Início: Data prevista para o início do contrato.</li>
-      <li class="mb-1">Cliente relacionado: Seleção do cliente associado ao contrato.</li>
+    <li class="mb-1">Cliente relacionado: Seleção do cliente associado ao contrato.</li>
+    <li class="mb-1">Data de Início: Data prevista para o início do contrato.</li>
+    <li class="mb-1">Duração: Duração em meses do contrato.</li>
     </ul>
 
-    --break--
-    <h2 class="subtitle">Detalhes</h2>
-    <ul class="list-disc pl-6">
-      <li class="mb-2">Itens da Proposta: Lista dos itens propostos para o contrato.</li>
-      <li class="mb-2">Serviços: Lista dos serviços incluídos no contrato.</li>
-      <li class="mb-2">Níveis de Suporte: Lista dos níveis de suporte oferecidos.</li>
-    </ul>
-    
-    --break--
-    <h2 class="subtitle">Detalhes</h2>
-    <ul class="list-disc pl-6">
-      <li class="mb-2">Formas de Atendimento: Lista das formas de atendimento previstas.</li>
-      <li class="mb-2">Valores de Implantação: Lista dos valores de implantação associados a diferentes serviços.</li>
-    </ul>
 `;
 
 const help_contrato_verified = `
@@ -94,11 +94,52 @@ const help_single_user = `
   Aqui, estão reunidas informações essenciais como nome, endereço, informações de contato e outros detalhes pertinentes para oferecer uma compreensão rápida e completa sobre quem é esse cliente e como se comunicar com ele, se necessário.
 `;
 
+const help_edicao_perfil = `
+  Bem-vindo à página de edição de perfil! Aqui, você tem o controle para atualizar e manter suas informações pessoais sempre em dia.
+
+  --break--
+  <h2 class="subtitle">Campos Disponíveis</h2>
+  <ul class="list-disc pl-6">
+    <li>Nome: Insira seu nome completo.</li>
+    <li>Telefone: Adicione seu número de telefone.</li>
+    <li>Celular: Informe seu número de celular, se aplicável.</li>
+    <li>Endereço: Digite seu endereço residencial completo.</li>
+  </ul>
+
+  --break--
+  <h2 class="subtitle">Campos Disponíveis</h2>
+  <ul class="list-disc pl-6">
+    <li>Número: Adicione o número da residência, se aplicável.</li>
+    <li>Complemento: Caso necessário, forneça detalhes adicionais sobre o endereço.</li>
+    <li>Cidade: Informe a cidade onde reside.</li>
+    <li>CEP: Insira seu CEP para identificação de localização.</li>
+  </ul>
+
+  --break--
+  <h2 class="subtitle">Atualização de Senha</h2>
+  <ul class="list-disc pl-6">
+    <li>Senha: Se preferir, digite sua senha atual para confirmar a edição ou, caso queira atualizar, insira uma nova senha.</li>
+  </ul>
+
+  --break--
+  <h2 class="subtitle">Confirmação e Salvar</h2>
+  <ul class="list-decimal pl-6">
+    <li class="ml-">Verifique se todas as informações estão corretas antes de salvar.</li>
+    <li class="ml-">Ao finalizar as alterações, clique no botão "Salvar" para confirmar as mudanças.</li>
+  </ul>
+
+  --break--
+  Estamos aqui para ajudar! Em caso de dúvidas ou problemas durante a edição do perfil, nossa equipe de suporte está pronta para fornecer assistência.
+`;
+
+
+
 export {
   help_contratos,
   help_novo_contrato,
   help_single_user,
   help_users_page,
   help_contrato_verified,
-  help_contrato_not_verified
+  help_contrato_not_verified,
+  help_edicao_perfil
 };

@@ -5,11 +5,14 @@ import { redirect } from "next/navigation";
 
 import { CookiesValues } from "@/constants/Cookies";
 
-import { UserSchemaLogin, UserSchemaRegister } from "@/schemas/User";
+import { UserSchemaLogin, UserSchemaRegister, UserSchemaUpdateInfos } from "@/schemas/User";
 import { getData } from "@/utils/getData";
 
 // libs
 import { z } from "zod";
+import { revalidateTag } from "next/cache";
+import { backendUrl } from "@/constants/Urls";
+import { cleanMask } from "@/utils/formatters";
 
 type CreateUserInputs = z.infer<typeof UserSchemaRegister>
 
@@ -54,7 +57,10 @@ export async function Login(data: LoginInputs) {
 
 
     if ("token" in authRes) {
-      const time_to_live = data.connected ? 60 * 60 : 10;
+      const week = 60 * 60 * 24 * 7;
+      const hour = 60 * 60;
+
+      const time_to_live = data.connected ? week : hour;
 
       cookies().set("jwt", authRes.token, { maxAge: time_to_live, secure: true, httpOnly: true });
       cookies().set("name", authRes.user.name, { maxAge: time_to_live, secure: true, httpOnly: true });
@@ -92,4 +98,56 @@ export async function Logout() {
   cookies().delete("user_id");
   cookies().delete(CookiesValues.name);
   redirect("/logout");
+}
+
+type UpdateInputs = z.infer<typeof UserSchemaUpdateInfos>
+
+export async function UpdateUserInfos(data: UpdateInputs) {
+
+  if (UserSchemaUpdateInfos.safeParse(data).success) {
+    const user_id = cookies().get("user_id")?.value;
+    const token = cookies().get("jwt")?.value;
+
+    const updatedUser = {
+      user_id: user_id,
+      name: data.name,
+      phone: cleanMask(data.phone as string),
+      address: {
+        city: data.city,
+        number: data.addressNumber,
+        street: data.address,
+        complement: data.complement,
+        postal_code: data.postalCode
+      },
+    };
+
+
+    const res = await fetch(`${backendUrl}/users/${user_id}`, {
+      method: "PATCH",
+      cache: "no-cache",
+      headers: {
+        "Authorization": `Bearer ${token}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(updatedUser)
+    });
+
+    const ress: TUserData = await res.json();
+
+    cookies().set("name", ress.name);
+    revalidateTag("user_infos");
+
+    return ress;
+  }
+
+}
+
+export async function ForgotPassword(email: string) {
+  await getData("/users/reset-password", {
+    method: "POST",
+    cache: "no-cache",
+    body: JSON.stringify({
+      email
+    })
+  });
 }
